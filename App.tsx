@@ -26,16 +26,13 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={{
+        marginTop: 150,
+      }}>
       <GoogleSigninButton onPress={signIn} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    marginTop: 150,
-  },
-});
 
 export default App;
