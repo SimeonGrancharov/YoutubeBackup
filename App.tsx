@@ -4,10 +4,11 @@ import {
 } from '@react-native-google-signin/google-signin'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { withRedux } from './src/hoc/withRedux'
 import { useReduxSelector } from './src/hooks/useReduxSelector'
 import { userSlice } from './src/reducers/user'
+import { googleSignIn } from './src/services/google'
 
 function App(): JSX.Element {
   const [isReady, setIsReady] = useState<boolean>(false)
@@ -23,6 +24,7 @@ function App(): JSX.Element {
 
     setIsReady(true)
   }, [])
+
   const dispatch = useDispatch()
   const isLoggedIn = useReduxSelector(state => state.user.isLoggedIn)
 
@@ -42,7 +44,7 @@ function App(): JSX.Element {
 
   const signIn = useCallback(async () => {
     try {
-      const user = await GoogleSignin.signIn()
+      await googleSignIn()
 
       const tokens = await GoogleSignin.getTokens()
 
