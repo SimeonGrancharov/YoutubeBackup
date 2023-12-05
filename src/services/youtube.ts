@@ -10,6 +10,7 @@ const SearchByQueryResponse = z.object({
 export async function searchByQuery(
   query: string
 ): Promise<z.TypeOf<typeof SearchByQueryResponse>> {
+  console.log(await GoogleSignin.isSignedIn())
   const tokens = await GoogleSignin.getTokens()
 
   const response = await fetch(

@@ -17,15 +17,18 @@ function* init() {
 
     const isSignedIn: boolean = yield call(GoogleSignin.isSignedIn)
 
-    yield put(userSlice.actions.setIsLoggedIn(isSignedIn))
+    if (!isSignedIn) {
+      yield put(userSlice.actions.setIsLoggedIn(false))
+    } else {
+      yield put(userSlice.actions.logIn(true))
+    }
 
     //Brief delay for a better experience
     yield delay(1000)
-
-    yield put(appStateSlice.actions.setStatus('ready'))
   } catch (err) {
     console.log('>>>>>>>> ', err)
-    yield put(appStateSlice.actions.setStatus('not-ready'))
+  } finally {
+    yield put(appStateSlice.actions.setStatus('ready'))
   }
 }
 

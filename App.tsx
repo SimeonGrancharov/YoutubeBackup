@@ -14,7 +14,7 @@ function App(): JSX.Element {
 
   const signIn = useCallback(() => {
     // TODO Move me in a hook
-    dispatch(userSlice.actions.logIn())
+    dispatch(userSlice.actions.logIn(false))
   }, [])
 
   const onLogOutPress = useCallback(() => {
