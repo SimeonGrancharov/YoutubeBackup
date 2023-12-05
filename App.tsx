@@ -5,6 +5,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { SearchScreen } from './src/components/SearchScreen'
 import { withRedux } from './src/hoc/withRedux'
 import { useReduxSelector } from './src/hooks/useReduxSelector'
 import { userSlice } from './src/reducers/user'
@@ -32,6 +33,10 @@ function App(): JSX.Element {
     } catch (err) {
       console.log(err)
     }
+  }, [])
+
+  const onLogOutPress = useCallback(() => {
+    dispatch(userSlice.actions.logOut())
   }, [])
 
   if (appStatus === 'not-ready') {
@@ -67,14 +72,10 @@ function App(): JSX.Element {
             backgroundColor: 'red'
           }}
         >
-          <Pressable
-            onPress={async () => {
-              await GoogleSignin.signOut()
-              dispatch(userSlice.actions.setIsLoggedIn(false))
-            }}
-          >
+          <Pressable onPress={onLogOutPress}>
             <Text>Sign Out</Text>
           </Pressable>
+          <SearchScreen />
         </View>
       )}
     </View>

@@ -1,3 +1,5 @@
+import { View } from 'react-native'
+
 export const SearchScreen = () => {
-  return null
+  return <View></View>
 }
