@@ -11,36 +11,9 @@ import { userSlice } from './src/reducers/user'
 import { googleSignIn } from './src/services/google'
 
 function App(): JSX.Element {
-  const [isReady, setIsReady] = useState<boolean>(false)
-
-  useEffect(() => {
-    GoogleSignin.configure({
-      scopes: [`https://www.googleapis.com/auth/youtube`],
-      iosClientId:
-        '719318481645-ssoagvt5c2v1rm3hmsv3g1sqgova7vs9.apps.googleusercontent.com',
-      webClientId:
-        '719318481645-903hovl9tieh04rn719utgbbslnbsb86.apps.googleusercontent.com'
-    })
-
-    setIsReady(true)
-  }, [])
-
+  const appStatus = useReduxSelector(state => state.appState.status)
   const dispatch = useDispatch()
   const isLoggedIn = useReduxSelector(state => state.user.isLoggedIn)
-
-  useEffect(() => {
-    if (!isReady) {
-      return
-    }
-
-    async function getIsSignedIn() {
-      const isSignedIn = await GoogleSignin.isSignedIn()
-
-      dispatch(userSlice.actions.setIsLoggedIn(isSignedIn))
-    }
-
-    getIsSignedIn()
-  }, [isReady])
 
   const signIn = useCallback(async () => {
     try {
@@ -66,6 +39,22 @@ function App(): JSX.Element {
       console.log(err)
     }
   }, [])
+
+  if (appStatus === 'not-ready') {
+    return <></>
+  }
+
+  if (appStatus === 'initializing') {
+    return (
+      <View
+        style={{
+          height: '100%',
+          width: '100%',
+          backgroundColor: 'red'
+        }}
+      />
+    )
+  }
 
   return (
     <View

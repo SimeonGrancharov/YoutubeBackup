@@ -1,4 +1,4 @@
-import { all, takeLatest } from 'typed-redux-saga/macro'
+import { all, takeLatest } from 'redux-saga/effects'
 import { userSlice } from '../reducers/user'
 
 function* onLoggedIn(
@@ -9,5 +9,5 @@ function* onLoggedIn(
 }
 
 export default function* userSaga() {
-  yield* all([takeLatest(userSlice.actions.setIsLoggedIn.type, onLoggedIn)])
+  yield all([takeLatest(userSlice.actions.setIsLoggedIn.type, onLoggedIn)])
 }
