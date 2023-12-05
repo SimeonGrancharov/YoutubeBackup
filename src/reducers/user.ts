@@ -13,6 +13,7 @@ export const userSlice = createSlice({
     setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload
     },
+    logIn: () => {},
     logOut: () => {}
   }
 })
