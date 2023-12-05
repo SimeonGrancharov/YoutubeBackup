@@ -13,7 +13,6 @@ export const appStateSlice = createSlice({
   } as StateT,
   reducers: {
     setStatus: (state, action: PayloadAction<AppStatusT>) => {
-      console.log('??? ', action.payload)
       state.status = action.payload
     }
   }

@@ -29,12 +29,6 @@ function App(): JSX.Element {
           }
         }
       )
-
-      const data = await res.json()
-
-      dispatch(userSlice.actions.setIsLoggedIn(true))
-
-      console.log(JSON.stringify(data))
     } catch (err) {
       console.log(err)
     }
@@ -48,6 +42,7 @@ function App(): JSX.Element {
     return (
       <View
         style={{
+          flex: 1,
           height: '100%',
           width: '100%',
           backgroundColor: 'red'

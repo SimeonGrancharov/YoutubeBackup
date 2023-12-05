@@ -4,7 +4,6 @@ import { appStateSlice } from '../reducers/appState'
 import { userSlice } from '../reducers/user'
 
 function* init() {
-  console.log('ALOO?')
   try {
     yield put(appStateSlice.actions.setStatus('initializing'))
 
