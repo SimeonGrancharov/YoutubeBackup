@@ -34,6 +34,7 @@ export const FavouritesScreen = () => {
         data={favourites}
         renderItem={renderItem}
         ListEmptyComponent={<Text>No favourites yet</Text>}
+        keyExtractor={item => item}
       />
     </View>
   )

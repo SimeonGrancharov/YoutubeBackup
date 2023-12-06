@@ -48,6 +48,7 @@ export const SearchScreen = () => {
           renderItem={renderItem}
           ListEmptyComponent={<Empty text="Nothing to show" />}
           onEndReached={onEndReached}
+          keyExtractor={item => item}
         />
       ) : null}
     </View>
