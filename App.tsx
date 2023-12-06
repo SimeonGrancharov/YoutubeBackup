@@ -2,6 +2,7 @@ import { GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import React, { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { FavouritesScreen } from './src/components/FavouritesScreen'
 import { SearchScreen } from './src/components/SearchScreen'
 import { withRedux } from './src/hoc/withRedux'
 import { useReduxSelector } from './src/hooks/useReduxSelector'
@@ -53,6 +54,7 @@ function App(): JSX.Element {
             <Text>Sign Out</Text>
           </Pressable>
           <SearchScreen />
+          <FavouritesScreen />
         </View>
       )}
     </View>

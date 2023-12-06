@@ -16,6 +16,7 @@ export const videosSlice = createSlice({
       action.payload.forEach(video => {
         state.videosById[video.id] = video
       })
-    }
+    },
+    fetch: (_, __: PayloadAction<BaseVideoT['id'][]>) => {}
   }
 })

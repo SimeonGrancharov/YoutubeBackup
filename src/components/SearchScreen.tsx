@@ -66,6 +66,7 @@ const SearchResult = React.memo((props: { videoId: BaseVideoT['id'] }) => {
   )
 
   const onVideoPress = useCallback(async () => {
+    // TODO move me in a hook
     dispatch(favouritesSlice.actions.addFavourite(props.videoId))
   }, [video])
 

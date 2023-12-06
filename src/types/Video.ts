@@ -6,28 +6,40 @@ const ThumbnailSchema = z.object({
   url: z.string()
 })
 
-export const YTVideoSchema = z.object({
-  id: z.object({
-    videoId: z.string()
-  }),
+export const YTSearchVideoSchema = z.object({
+  id: z.union([
+    z.object({
+      videoId: z.string()
+    }),
+    z.string()
+  ]),
   snippet: z.object({
     description: z.string(),
-    publishTime: z.string(),
+    publishTime: z.string().nullish(),
     publishedAt: z.string(),
     title: z.string(),
     thumbnails: z.object({
       default: ThumbnailSchema
+    }),
+    tags: z.array(z.string()).nullish()
+  }),
+  statistics: z
+    .object({
+      viewCount: z.string(),
+      likeCount: z.string(),
+      commentCount: z.string().nullish()
     })
-  })
+    .nullish()
 })
 
-export const BaseVideoSchema = YTVideoSchema.transform(video => ({
-  id: video.id.videoId,
+export const BaseVideoSchema = YTSearchVideoSchema.transform(video => ({
+  id: typeof video.id === 'object' ? video.id.videoId : video.id,
   title: video.snippet.title,
   description: video.snippet.description,
   publishedAt: video.snippet.publishedAt,
   publishTime: video.snippet.publishTime,
-  thumb: video.snippet.thumbnails.default
+  thumb: video.snippet.thumbnails.default,
+  tags: video.statistics
 }))
 
 export type BaseVideoT = z.TypeOf<typeof BaseVideoSchema>

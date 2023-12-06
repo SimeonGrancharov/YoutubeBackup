@@ -1,16 +1,15 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import * as z from 'zod'
-import { BaseVideoSchema } from '../types/Video'
+import { BaseVideoSchema, BaseVideoT } from '../types/Video'
 
-const SearchByQueryResponse = z.object({
+const Response = z.object({
   nextPageToken: z.string().nullish(),
   items: z.array(BaseVideoSchema)
 })
 
 export async function searchByQuery(
   query: string
-): Promise<z.TypeOf<typeof SearchByQueryResponse>> {
-  console.log(await GoogleSignin.isSignedIn())
+): Promise<z.TypeOf<typeof Response>> {
   const tokens = await GoogleSignin.getTokens()
 
   const response = await fetch(
@@ -26,5 +25,24 @@ export async function searchByQuery(
 
   const data = await response.json()
 
-  return SearchByQueryResponse.parse(data)
+  return Response.parse(data)
+}
+
+export async function fetchVideos(videos: BaseVideoT['id'][]) {
+  const tokens = await GoogleSignin.getTokens()
+
+  const response = await fetch(
+    `https://www.googleapis.com/youtube/v3/videos?id=${encodeURIComponent(
+      videos.join(',')
+    )}&part=snippet,statistics`,
+    {
+      headers: {
+        Authorization: `Bearer ${tokens.accessToken}`
+      }
+    }
+  )
+
+  const data = await response.json()
+
+  return Response.parse(data)
 }

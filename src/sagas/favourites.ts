@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin'
-import { all, call, select, takeLatest } from 'redux-saga/effects'
+import { all, call, put, select, takeLatest } from 'redux-saga/effects'
 import { favouritesSlice } from '../reducers/favourites'
+import { videosSlice } from '../reducers/videos'
 import { selectFavourites } from '../selectors/selectors'
 
 function* onFavouritesChanged() {
@@ -26,8 +27,15 @@ function* onFavouritesChanged() {
   }
 }
 
+function* onFavouriteAdded(
+  action: ReturnType<typeof favouritesSlice.actions.addFavourite>
+) {
+  yield put(videosSlice.actions.fetch([action.payload]))
+}
+
 export default function* favouritesSaga() {
   yield all([
+    takeLatest(favouritesSlice.actions.addFavourite, onFavouriteAdded),
     takeLatest(
       [
         favouritesSlice.actions.addFavourite,
