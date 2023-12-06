@@ -8,14 +8,17 @@ const Response = z.object({
 })
 
 export async function searchByQuery(
-  query: string
+  query: string,
+  nextPageToken: string | undefined
 ): Promise<z.TypeOf<typeof Response>> {
   const tokens = await GoogleSignin.getTokens()
 
   const response = await fetch(
     `https://www.googleapis.com/youtube/v3/search?q=${encodeURIComponent(
       query
-    )}&type=video&part=snippet&maxResults=20`,
+    )}&type=video&part=snippet&maxResults=20${
+      nextPageToken ? `&pageToken=${nextPageToken}` : ''
+    }`,
     {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`

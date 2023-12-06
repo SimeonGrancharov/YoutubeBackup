@@ -23,30 +23,30 @@ export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    search: (_, __: PayloadAction<string>) => {},
+    search: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload
+    },
     setIsSearching: (state, action: PayloadAction<boolean>) => {
       state.isSearching = action.payload
     },
-    setResults: (
-      state,
-      action: PayloadAction<{
-        nextPageToken: string | undefined
-        videos: BaseVideoT[] | undefined
-      }>
-    ) => {
-      if (action.payload.nextPageToken) {
+    setPagination: (state, action: PayloadAction<string | undefined>) => {
+      if (action.payload) {
         if (!state.pagination) {
           state.pagination = {
-            nextPageToken: action.payload.nextPageToken
+            nextPageToken: action.payload
           }
         } else {
-          state.pagination.nextPageToken = action.payload.nextPageToken
+          state.pagination.nextPageToken = action.payload
         }
       } else {
         state.pagination = undefined
       }
-
-      state.results = action.payload.videos?.map(v => v.id)
+    },
+    addResults: (state, action: PayloadAction<BaseVideoT[]>) => {
+      state.results?.push(...action.payload.map(v => v.id))
+    },
+    setResults: (state, action: PayloadAction<BaseVideoT[] | undefined>) => {
+      state.results = action.payload?.map(v => v.id)
     },
     reset: () => initialState
   }

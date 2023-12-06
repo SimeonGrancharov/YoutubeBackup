@@ -8,11 +8,17 @@ import { SearchResult } from './SearchResult'
 import { SearchLoader } from '../constants/loaders'
 import { Loading } from './Loading'
 import { Empty } from './Empty'
+import { useReduxAction } from '../hooks/useReduxAction'
+import searchSaga from '../sagas/search'
+import { searchSlice } from '../reducers/search'
 
 type ItemT = BaseVideoT['id']
 
 export const SearchScreen = () => {
   const searchResults = useReduxSelector(state => state.search.results)
+  const searchQuery = useReduxSelector(state => state.search.searchQuery)
+  const search = useReduxAction(searchSlice.actions.search)
+
   const isLoading = useReduxSelector(
     state => state.loaders.loadersById[SearchLoader]
   )
@@ -20,6 +26,10 @@ export const SearchScreen = () => {
   const renderItem = useCallback(({ item }: ListRenderItemInfo<ItemT>) => {
     return <SearchResult videoId={item} />
   }, [])
+
+  const onEndReached = useCallback(() => {
+    search(searchQuery)
+  }, [searchQuery])
 
   return (
     <View style={styles.mainContainer}>
@@ -32,6 +42,7 @@ export const SearchScreen = () => {
           contentContainerStyle={styles.resultsContainer}
           renderItem={renderItem}
           ListEmptyComponent={<Empty text="Nothing to show" />}
+          onEndReached={onEndReached}
         />
       ) : null}
     </View>

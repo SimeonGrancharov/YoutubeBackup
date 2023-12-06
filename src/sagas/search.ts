@@ -1,8 +1,9 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects'
+import { all, select, call, put, takeLatest } from 'redux-saga/effects'
 import { SearchLoader } from '../constants/loaders'
 import { loadersSlice } from '../reducers/loaders'
 import { searchSlice } from '../reducers/search'
 import { videosSlice } from '../reducers/videos'
+import { selectPagination, selectSearchResults } from '../selectors/search'
 import { searchByQuery } from '../services/youtube'
 
 function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
@@ -21,17 +22,29 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
   try {
     yield put(loadersSlice.actions.startLoading(SearchLoader))
     // Dummy but ... yield
+    const pagination: ReturnType<typeof selectPagination> = yield select(
+      selectPagination
+    )
+
     const result: Awaited<ReturnType<typeof searchByQuery>> = yield call(
       searchByQuery,
-      action.payload
+      action.payload,
+      pagination?.nextPageToken
+    )
+
+    const searchResults: ReturnType<typeof selectSearchResults> = yield select(
+      selectSearchResults
     )
 
     yield put(
-      searchSlice.actions.setResults({
-        videos: result.items,
-        nextPageToken: result.nextPageToken ?? undefined
-      })
+      searchSlice.actions.setPagination(result.nextPageToken ?? undefined)
     )
+
+    if (!searchResults) {
+      yield put(searchSlice.actions.setResults(result.items))
+    } else {
+      yield put(searchSlice.actions.addResults(result.items))
+    }
 
     yield put(videosSlice.actions.consumeVideos(result.items))
 
