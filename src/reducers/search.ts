@@ -3,7 +3,7 @@ import { BaseVideoT } from '../types/Video'
 
 type StateT = {
   isSearching: boolean
-  searchQuery: string | undefined
+  lastSearchQuery: string | undefined
   results: BaseVideoT['id'][] | undefined
   pagination:
     | {
@@ -14,7 +14,7 @@ type StateT = {
 
 const initialState: StateT = {
   isSearching: false,
-  searchQuery: undefined,
+  lastSearchQuery: undefined,
   results: undefined,
   pagination: undefined
 }
@@ -23,8 +23,9 @@ export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    search: (state, action: PayloadAction<string>) => {
-      state.searchQuery = action.payload
+    search: () => {},
+    setLastSearchQuery: (state, action: PayloadAction<string>) => {
+      state.lastSearchQuery = action.payload
     },
     setIsSearching: (state, action: PayloadAction<boolean>) => {
       state.isSearching = action.payload

@@ -10,13 +10,17 @@ import { Loading } from './Loading'
 import { Empty } from './Empty'
 import { useReduxAction } from '../hooks/useReduxAction'
 import { searchSlice } from '../reducers/search'
-import { selectPagination, selectSearchResults } from '../selectors/search'
+import {
+  selectLastSearchQuery,
+  selectPagination,
+  selectSearchResults
+} from '../selectors/search'
 
 type ItemT = BaseVideoT['id']
 
 export const SearchScreen = () => {
   const searchResults = useReduxSelector(selectSearchResults)
-  const searchQuery = useReduxSelector(state => state.search.searchQuery)
+  const searchQuery = useReduxSelector(selectLastSearchQuery)
   const search = useReduxAction(searchSlice.actions.search)
   const pagination = useReduxSelector(selectPagination)
 
