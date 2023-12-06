@@ -50,8 +50,8 @@ export const VideoInfoModalProvider = (props: {
 
   const pan = Gesture.Pan()
     .onChange(ev => {
-      // If the gesture is downwards -> update the value to move the sheet accordingly
-      animationValue.value += ev.changeY > 0 ? ev.changeY : 0
+      // Simply do not allow dragging upwards above the content
+      animationValue.value = Math.max(animationValue.value + ev.changeY, 0)
     })
     .onFinalize(() => {
       // If dragged to half the height -> close the modal
