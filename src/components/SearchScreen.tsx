@@ -26,7 +26,11 @@ export const SearchScreen = () => {
   )
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 1
+      }}
+    >
       <TextInput
         style={{
           width: 200,

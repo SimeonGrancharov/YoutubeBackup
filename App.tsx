@@ -1,4 +1,6 @@
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -7,6 +9,8 @@ import { SearchScreen } from './src/components/SearchScreen'
 import { withRedux } from './src/hoc/withRedux'
 import { useReduxSelector } from './src/hooks/useReduxSelector'
 import { userSlice } from './src/reducers/user'
+
+const Tab = createBottomTabNavigator()
 
 function App(): JSX.Element {
   const appStatus = useReduxSelector(state => state.appState.status)
@@ -41,23 +45,28 @@ function App(): JSX.Element {
   }
 
   return (
-    <View
-      style={{
-        marginTop: 150
-      }}
-    >
+    <>
       {!isLoggedIn ? (
-        <GoogleSigninButton onPress={signIn} />
+        <GoogleSigninButton style={{ marginTop: 150 }} onPress={signIn} />
       ) : (
-        <View>
-          <Pressable onPress={onLogOutPress}>
-            <Text>Sign Out</Text>
-          </Pressable>
-          <SearchScreen />
-          <FavouritesScreen />
-        </View>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={{
+              headerRight: () => {
+                return (
+                  <Pressable onPress={onLogOutPress}>
+                    <Text>Sign out</Text>
+                  </Pressable>
+                )
+              }
+            }}
+          >
+            <Tab.Screen name="Search" component={SearchScreen} />
+            <Tab.Screen name="Favourites" component={FavouritesScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
       )}
-    </View>
+    </>
   )
 }
 
