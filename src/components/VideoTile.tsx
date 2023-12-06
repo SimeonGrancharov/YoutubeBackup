@@ -28,8 +28,10 @@ export const VideoTile = React.memo((props: { id: BaseVideoT['id'] }) => {
       />
 
       <View style={styles.rightContent}>
-        <Text style={styles.title}>{video.title}</Text>
-        <Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">
+        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+          {video.title}
+        </Text>
+        <Text style={styles.description} numberOfLines={1} ellipsizeMode="tail">
           {video.description}
         </Text>
       </View>
@@ -52,13 +54,15 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   rightContent: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'space-between'
   },
   title: {
     fontSize: 19,
     lineHeight: 24,
     fontWeight: '500',
-    color: colors.text1
+    color: colors.text1,
+    marginBottom: 20
   },
   description: {
     fontSize: 17,
