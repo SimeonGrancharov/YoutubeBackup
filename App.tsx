@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { FavouritesScreen } from './src/components/FavouritesScreen'
 import { SearchScreen } from './src/components/SearchScreen'
 import { withRedux } from './src/hoc/withRedux'
+import { useReduxAction } from './src/hooks/useReduxAction'
 import { useReduxSelector } from './src/hooks/useReduxSelector'
 import { userSlice } from './src/reducers/user'
 
@@ -14,17 +15,17 @@ const Tab = createBottomTabNavigator()
 
 function App(): JSX.Element {
   const appStatus = useReduxSelector(state => state.appState.status)
-  const dispatch = useDispatch()
+  const logIn = useReduxAction(userSlice.actions.logIn)
+  const logOut = useReduxAction(userSlice.actions.logOut)
+
   const isLoggedIn = useReduxSelector(state => state.user.isLoggedIn)
 
   const signIn = useCallback(() => {
-    // TODO Move me in a hook
-    dispatch(userSlice.actions.logIn(false))
+    logIn(false)
   }, [])
 
   const onLogOutPress = useCallback(() => {
-    // TODO Move me in a hook
-    dispatch(userSlice.actions.logOut())
+    logOut()
   }, [])
 
   if (appStatus === 'not-ready') {

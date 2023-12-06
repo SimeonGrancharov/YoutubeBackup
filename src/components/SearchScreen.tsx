@@ -1,29 +1,15 @@
 import React, { useCallback } from 'react'
-import {
-  NativeSyntheticEvent,
-  Pressable,
-  Text,
-  TextInput,
-  TextInputSubmitEditingEventData,
-  View
-} from 'react-native'
+import { Pressable, Text, TextInput, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { useReduxSelector } from '../hooks/useReduxSelector'
 import { favouritesSlice } from '../reducers/favourites'
-import { searchSlice } from '../reducers/search'
 import { selectFavourites } from '../selectors/selectors'
 import { BaseVideoT } from '../types/Video'
+import { SearchInput } from './SearchInput'
 
 export const SearchScreen = () => {
   const dispatch = useDispatch()
   const searchResults = useReduxSelector(state => state.search.results)
-
-  const onSubmit = useCallback(
-    (ev: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
-      dispatch(searchSlice.actions.search(ev.nativeEvent.text))
-    },
-    []
-  )
 
   return (
     <View
@@ -31,16 +17,7 @@ export const SearchScreen = () => {
         flex: 1
       }}
     >
-      <TextInput
-        style={{
-          width: 200,
-          backgroundColor: 'salmon',
-          marginBottom: 50
-        }}
-        placeholder="Monka ti li si?"
-        onSubmitEditing={onSubmit}
-        returnKeyType="go"
-      />
+      <SearchInput />
       {searchResults ? (
         <View>
           {searchResults.length ? (
