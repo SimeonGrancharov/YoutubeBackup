@@ -6,6 +6,7 @@ import { selectVideo } from '../selectors/video'
 import { BaseVideoT } from '../types/Video'
 import { formatDateLong } from '../utils/formatters'
 import { FavouritesButton } from './FavouritesButton'
+import { OpenVideoButton } from './OpenVideoButton'
 import { VideoStatisticsRow } from './VideoStatisticsRow'
 
 export const VideoInfoModalContent = (props: { id: BaseVideoT['id'] }) => {
@@ -26,10 +27,9 @@ export const VideoInfoModalContent = (props: { id: BaseVideoT['id'] }) => {
       ]}
     >
       <View style={styles.header}>
+        <FavouritesButton videoId={video.id} />
         <Text style={styles.headerTitle}>Video</Text>
-        <View style={styles.favButton}>
-          <FavouritesButton videoId={video.id} />
-        </View>
+        <OpenVideoButton videoId={video.id} size="big" />
       </View>
       <View style={styles.content}>
         <View style={[styles.item, { paddingTop: 10 }]}>
@@ -71,13 +71,10 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 15
-  },
-  favButton: {
-    position: 'absolute',
-    left: 15
+    marginVertical: 15,
+    paddingHorizontal: 15
   },
   headerTitle: {
     fontSize: 23,

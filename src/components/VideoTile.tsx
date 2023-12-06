@@ -6,6 +6,7 @@ import { useReduxSelector } from '../hooks/useReduxSelector'
 import { selectVideo } from '../selectors/video'
 import { BaseVideoT } from '../types/Video'
 import { FavouritesButton } from './FavouritesButton'
+import { OpenVideoButton } from './OpenVideoButton'
 import { VideoStatisticsRow } from './VideoStatisticsRow'
 
 export const VideoTile = React.memo(
@@ -59,7 +60,14 @@ export const VideoTile = React.memo(
             {props.includeMetadata && video.stats !== undefined ? (
               <VideoStatisticsRow stats={video.stats} />
             ) : null}
-            <FavouritesButton videoId={video.id} />
+            <View style={styles.bottomRowRightContent}>
+              <OpenVideoButton
+                videoId={video.id}
+                size="small"
+                marginRight={15}
+              />
+              <FavouritesButton videoId={video.id} />
+            </View>
           </View>
         </View>
       </Pressable>
@@ -87,13 +95,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1
   },
+
+  bottomRowRightContent: {
+    flexDirection: 'row',
+    rowGap: 10
+  },
   image: {
     marginRight: 10,
     borderRadius: 4
   },
   rightContent: {
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   title: {
     fontSize: 19,
