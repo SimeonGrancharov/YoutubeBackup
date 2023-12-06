@@ -4,6 +4,7 @@ import { colors } from '../constants/colors'
 import { useReduxSelector } from '../hooks/useReduxSelector'
 import { selectVideo } from '../selectors/video'
 import { BaseVideoT } from '../types/Video'
+import { formatDateLong } from '../utils/formatters'
 import { FavouritesButton } from './FavouritesButton'
 import { VideoStatisticsRow } from './VideoStatisticsRow'
 
@@ -34,6 +35,10 @@ export const VideoInfoModalContent = (props: { id: BaseVideoT['id'] }) => {
         <View style={[styles.item, { paddingTop: 10 }]}>
           <Text style={styles.title}>Title</Text>
           <Text style={styles.value}>{video.title}</Text>
+        </View>
+        <View style={[styles.item, { paddingTop: 10 }]}>
+          <Text style={styles.title}>Published:</Text>
+          <Text style={styles.value}>{formatDateLong(video.publishedAt)}</Text>
         </View>
         {video.tags ? (
           <View style={styles.item}>

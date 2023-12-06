@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { BaseVideoT } from '../types/Video'
+import { formatNumberCompact } from '../utils/formatters'
 import { VideoStat } from './VideoStat'
 
 const styles = StyleSheet.create({
@@ -21,15 +22,17 @@ export const VideoStatisticsRow = React.memo(
       >
         <VideoStat
           name="views"
-          value={parseInt(props.stats?.viewCount ?? '0')}
+          value={formatNumberCompact(parseInt(props.stats?.viewCount ?? '0'))}
         />
         <VideoStat
           name="comments"
-          value={parseInt(props.stats?.commentCount ?? '0')}
+          value={formatNumberCompact(
+            parseInt(props.stats?.commentCount ?? '0')
+          )}
         />
         <VideoStat
           name="likes"
-          value={parseInt(props.stats?.likeCount ?? '0')}
+          value={formatNumberCompact(parseInt(props.stats?.likeCount ?? '0'))}
         />
       </View>
     )

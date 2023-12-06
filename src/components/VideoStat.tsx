@@ -6,13 +6,13 @@ import { EyeIcon } from './icons/Eye'
 import { ThumbIcon } from './icons/Thumb'
 
 export const VideoStat = React.memo(
-  (props: { name: 'views' | 'comments' | 'likes'; value: number }) => {
+  (props: { name: 'views' | 'comments' | 'likes'; value: number | string }) => {
     return (
       <View style={styles.mainContainer}>
         {props.name === 'views' && <EyeIcon style={styles.icon} />}
         {props.name === 'comments' && <BubbleIcon style={styles.icon} />}
         {props.name === 'likes' && <ThumbIcon style={styles.icon} />}
-        <Text>{props.value}</Text>
+        <Text style={styles.value}>{props.value}</Text>
       </View>
     )
   }

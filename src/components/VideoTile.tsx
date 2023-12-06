@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   image: {
-    marginRight: 10
+    marginRight: 10,
+    borderRadius: 4
   },
   rightContent: {
     flex: 1,
