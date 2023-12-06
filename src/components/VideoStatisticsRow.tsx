@@ -6,14 +6,19 @@ import { VideoStat } from './VideoStat'
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
-    columnGap: 10
+    columnGap: 15
   }
 })
 
 export const VideoStatisticsRow = React.memo(
-  (props: { stats: BaseVideoT['stats'] }) => {
+  (props: { stats: BaseVideoT['stats']; stretch?: boolean }) => {
     return (
-      <View style={styles.mainContainer}>
+      <View
+        style={[
+          styles.mainContainer,
+          props.stretch ? { justifyContent: 'space-between' } : undefined
+        ]}
+      >
         <VideoStat
           name="views"
           value={parseInt(props.stats?.viewCount ?? '0')}

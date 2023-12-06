@@ -125,16 +125,17 @@ const styles = StyleSheet.create({
   bottomSheet: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
+    left: 0,
+    right: 0,
     zIndex: 50,
-    maxHeight: Dimensions.get('window').height / 2,
+    maxHeight: windowHeight * 0.65,
     alignItems: 'center'
   },
   contentContainer: {
+    width: '100%',
     backgroundColor: colors.white,
     borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    paddingVertical: 20
+    borderTopLeftRadius: 20
   },
   pinch: {
     width: 60,

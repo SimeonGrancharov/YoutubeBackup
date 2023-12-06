@@ -11,6 +11,7 @@ import { userSlice } from './src/reducers/user'
 import { colors } from './src/constants/colors'
 import { VideoInfoModalProvider } from './src/components/VideoInfoModalProvider'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const Tab = createBottomTabNavigator()
 
@@ -47,7 +48,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       {!isLoggedIn ? (
         <View style={styles.loginContainer}>
           <View style={styles.textContainer}>
@@ -91,7 +92,7 @@ function App(): JSX.Element {
           </VideoInfoModalProvider>
         </GestureHandlerRootView>
       )}
-    </>
+    </SafeAreaProvider>
   )
 }
 

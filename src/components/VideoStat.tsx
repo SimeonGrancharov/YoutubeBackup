@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { colors } from '../constants/colors'
 import { BubbleIcon } from './icons/Bubble'
 import { EyeIcon } from './icons/Eye'
 import { ThumbIcon } from './icons/Thumb'
@@ -26,5 +27,10 @@ const styles = StyleSheet.create({
     height: 20,
     marginBottom: 5
   },
-  value: {}
+  value: {
+    fontSize: 15,
+    lineHeight: 19,
+    color: colors.text2,
+    fontWeight: '500'
+  }
 })

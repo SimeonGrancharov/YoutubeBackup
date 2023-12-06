@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Pressable, StyleSheet, Text } from 'react-native'
+import { Pressable, StyleSheet } from 'react-native'
 import { colors } from '../constants/colors'
 import { useReduxAction } from '../hooks/useReduxAction'
 import { useReduxSelector } from '../hooks/useReduxSelector'
