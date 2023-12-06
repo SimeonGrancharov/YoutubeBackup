@@ -9,15 +9,16 @@ import { SearchLoader } from '../constants/loaders'
 import { Loading } from './Loading'
 import { Empty } from './Empty'
 import { useReduxAction } from '../hooks/useReduxAction'
-import searchSaga from '../sagas/search'
 import { searchSlice } from '../reducers/search'
+import { selectPagination, selectSearchResults } from '../selectors/search'
 
 type ItemT = BaseVideoT['id']
 
 export const SearchScreen = () => {
-  const searchResults = useReduxSelector(state => state.search.results)
+  const searchResults = useReduxSelector(selectSearchResults)
   const searchQuery = useReduxSelector(state => state.search.searchQuery)
   const search = useReduxAction(searchSlice.actions.search)
+  const pagination = useReduxSelector(selectPagination)
 
   const isLoading = useReduxSelector(
     state => state.loaders.loadersById[SearchLoader]
@@ -28,8 +29,12 @@ export const SearchScreen = () => {
   }, [])
 
   const onEndReached = useCallback(() => {
+    if (!pagination) {
+      return
+    }
+
     search(searchQuery)
-  }, [searchQuery])
+  }, [searchQuery, pagination])
 
   return (
     <View style={styles.mainContainer}>
