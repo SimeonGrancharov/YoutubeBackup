@@ -2,7 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin'
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects'
 import { favouritesSlice } from '../reducers/favourites'
+import { searchSlice } from '../reducers/search'
 import { userSlice } from '../reducers/user'
+import { videosSlice } from '../reducers/videos'
 
 function* onLogIn(action: ReturnType<typeof userSlice.actions.logIn>) {
   try {
@@ -47,6 +49,10 @@ function* onLogIn(action: ReturnType<typeof userSlice.actions.logIn>) {
 function* onLogOut() {
   yield call(GoogleSignin.signOut)
   yield put(userSlice.actions.setIsLoggedIn(false))
+
+  yield put(searchSlice.actions.reset())
+  yield put(videosSlice.actions.reset())
+  yield put(favouritesSlice.actions.reset())
 }
 
 export default function* userSaga() {

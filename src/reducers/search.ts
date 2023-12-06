@@ -12,14 +12,16 @@ type StateT = {
     | undefined
 }
 
+const initialState: StateT = {
+  isSearching: false,
+  searchQuery: undefined,
+  results: undefined,
+  pagination: undefined
+}
+
 export const searchSlice = createSlice({
   name: 'search',
-  initialState: {
-    isSearching: false,
-    searchQuery: undefined,
-    results: undefined,
-    pagination: undefined
-  } as StateT,
+  initialState,
   reducers: {
     search: (_, __: PayloadAction<string>) => {},
     setIsSearching: (state, action: PayloadAction<boolean>) => {
@@ -45,7 +47,8 @@ export const searchSlice = createSlice({
       }
 
       state.results = action.payload.videos.map(v => v.id)
-    }
+    },
+    reset: () => initialState
   }
 })
 

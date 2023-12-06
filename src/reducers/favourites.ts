@@ -5,11 +5,13 @@ type StateT = {
   favourites: BaseVideoT['id'][]
 }
 
+const initialState: StateT = {
+  favourites: []
+}
+
 export const favouritesSlice = createSlice({
   name: 'favourites',
-  initialState: {
-    favourites: []
-  } as StateT,
+  initialState,
   reducers: {
     setFavourites: (
       state,
@@ -23,6 +25,7 @@ export const favouritesSlice = createSlice({
     },
     removeFavourite: (state, action: PayloadAction<BaseVideoT['id']>) => {
       state.favourites = state.favourites.filter(id => id !== action.payload)
-    }
+    },
+    reset: () => initialState
   }
 })

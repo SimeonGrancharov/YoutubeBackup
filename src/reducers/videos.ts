@@ -6,17 +6,20 @@ type StateT = {
   videosById: Record<BaseVideoT['id'], BaseVideoT>
 }
 
+const initialState: StateT = {
+  videosById: {}
+}
+
 export const videosSlice = createSlice({
   name: 'videos',
-  initialState: {
-    videosById: {}
-  } as StateT,
+  initialState,
   reducers: {
     consumeVideos: (state, action: PayloadAction<BaseVideoT[]>) => {
       action.payload.forEach(video => {
         state.videosById[video.id] = video
       })
     },
-    fetch: (_, __: PayloadAction<BaseVideoT['id'][]>) => {}
+    fetch: (_, __: PayloadAction<BaseVideoT['id'][]>) => {},
+    reset: () => initialState
   }
 })
