@@ -9,6 +9,8 @@ import { useReduxAction } from './src/hooks/useReduxAction'
 import { useReduxSelector } from './src/hooks/useReduxSelector'
 import { userSlice } from './src/reducers/user'
 import { colors } from './src/constants/colors'
+import { VideoInfoModalProvider } from './src/components/VideoInfoModalProvider'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 const Tab = createBottomTabNavigator()
 
@@ -64,26 +66,30 @@ function App(): JSX.Element {
           </Pressable>
         </View>
       ) : (
-        <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={{
-              headerStyle: {
-                shadowColor: 'transparent', // this covers iOS
-                elevation: 0 // this covers Android},
-              },
-              headerRight: () => {
-                return (
-                  <Pressable onPress={onLogOutPress}>
-                    <Text>Sign out</Text>
-                  </Pressable>
-                )
-              }
-            }}
-          >
-            <Tab.Screen name="Search" component={SearchScreen} />
-            <Tab.Screen name="Favourites" component={FavouritesScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <VideoInfoModalProvider>
+            <NavigationContainer>
+              <Tab.Navigator
+                screenOptions={{
+                  headerStyle: {
+                    shadowColor: 'transparent', // remove for iOS
+                    elevation: 0 // remove for Android
+                  },
+                  headerRight: () => {
+                    return (
+                      <Pressable onPress={onLogOutPress}>
+                        <Text>Sign out</Text>
+                      </Pressable>
+                    )
+                  }
+                }}
+              >
+                <Tab.Screen name="Search" component={SearchScreen} />
+                <Tab.Screen name="Favourites" component={FavouritesScreen} />
+              </Tab.Navigator>
+            </NavigationContainer>
+          </VideoInfoModalProvider>
+        </GestureHandlerRootView>
       )}
     </>
   )
