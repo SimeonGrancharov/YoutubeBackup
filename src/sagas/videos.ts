@@ -9,9 +9,9 @@ function* onFetch(action: ReturnType<typeof videosSlice.actions.fetch>) {
       action.payload
     )
 
-    yield put(videosSlice.actions.consumeVideos(videos.items))
+    yield put(videosSlice.actions.consumeVideos(videos.items ?? []))
   } catch (err: any) {
-    console.log('fetchVideios failed: ', err)
+    console.log('fetchVideos failed: ', err)
   }
 }
 
