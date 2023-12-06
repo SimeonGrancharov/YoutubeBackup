@@ -12,6 +12,9 @@ import { colors } from './src/constants/colors'
 import { VideoInfoModalProvider } from './src/components/VideoInfoModalProvider'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SearchIcon } from './src/components/icons/Search'
+import { HeartIcon } from './src/components/icons/Heart'
+import { LogOutIcon } from './src/components/icons/LogOut'
 
 const Tab = createBottomTabNavigator()
 
@@ -79,14 +82,42 @@ function App(): JSX.Element {
                   headerRight: () => {
                     return (
                       <Pressable onPress={onLogOutPress}>
-                        <Text>Sign out</Text>
+                        <LogOutIcon
+                          style={{
+                            width: 30,
+                            height: 30,
+                            marginRight: 20
+                          }}
+                        />
                       </Pressable>
                     )
                   }
                 }}
               >
-                <Tab.Screen name="Search" component={SearchScreen} />
-                <Tab.Screen name="Favourites" component={FavouritesScreen} />
+                <Tab.Screen
+                  name="Search"
+                  component={SearchScreen}
+                  options={{
+                    tabBarIcon: ({ focused }) => (
+                      <SearchIcon
+                        style={{ width: 30, height: 30 }}
+                        stroke={focused ? colors.accent : colors.text1}
+                      />
+                    )
+                  }}
+                />
+                <Tab.Screen
+                  name="Favourites"
+                  component={FavouritesScreen}
+                  options={{
+                    tabBarIcon: ({ focused }) => (
+                      <HeartIcon
+                        style={{ width: 30, height: 30 }}
+                        stroke={focused ? colors.accent : colors.text1}
+                      />
+                    )
+                  }}
+                />
               </Tab.Navigator>
             </NavigationContainer>
           </VideoInfoModalProvider>

@@ -2,12 +2,15 @@ import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 import { StyleProp, ViewStyle } from 'react-native'
 
-export const HeartIcon = (props: { style?: StyleProp<ViewStyle> }) => {
+export const HeartIcon = (props: {
+  style?: StyleProp<ViewStyle>
+  stroke?: string
+}) => {
   return (
     <Svg
       viewBox="0 0 24 24"
       aria-labelledby="favouriteIconTitle"
-      stroke="#000"
+      stroke={props.stroke ?? '#000'}
       strokeLinecap="square"
       fill="none"
       color="#000"
