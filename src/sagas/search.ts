@@ -37,6 +37,7 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
     )
 
     // For some reason the YT API returns data that is previously returned
+    // Check this =>> https://stackoverflow.com/questions/72438701/youtube-data-api-search-returning-repeating-items
     result.items = result.items.filter(
       video => !searchResults?.includes(video.id)
     )
