@@ -1,54 +1,58 @@
-import React, { useCallback } from 'react'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { colors } from '../constants/colors'
-import { useReduxAction } from '../hooks/useReduxAction'
 import { useReduxSelector } from '../hooks/useReduxSelector'
-import { selectFavourites } from '../selectors/favourites'
 import { selectVideo } from '../selectors/video'
 import { BaseVideoT } from '../types/Video'
 import { FavouritesButton } from './FavouritesButton'
+import { VideoStatisticsRow } from './VideoStatisticsRow'
 
-export const VideoTile = React.memo((props: { id: BaseVideoT['id'] }) => {
-  const video = useReduxSelector(state => selectVideo(state, props.id))
-  if (!video) {
-    return null
-  }
+export const VideoTile = React.memo(
+  (props: { id: BaseVideoT['id']; includeMetadata?: boolean }) => {
+    const video = useReduxSelector(state => selectVideo(state, props.id))
+    if (!video) {
+      return null
+    }
 
-  return (
-    <View style={styles.mainContainer}>
-      <View style={styles.contentContainer}>
-        <Image
-          source={{
-            uri: video.thumb.url
-          }}
-          style={[
-            styles.image,
-            {
-              height: video.thumb.height,
-              width: video.thumb.width
-            }
-          ]}
-        />
+    return (
+      <View style={styles.mainContainer}>
+        <View style={styles.contentContainer}>
+          <Image
+            source={{
+              uri: video.thumb.url
+            }}
+            style={[
+              styles.image,
+              {
+                height: video.thumb.height,
+                width: video.thumb.width
+              }
+            ]}
+          />
 
-        <View style={styles.rightContent}>
-          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-            {video.title}
-          </Text>
-          <Text
-            style={styles.description}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {video.description}
-          </Text>
+          <View style={styles.rightContent}>
+            <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+              {video.title}
+            </Text>
+            <Text
+              style={styles.description}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {video.description}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.bottomRow}>
+          {props.includeMetadata && video.stats !== undefined ? (
+            <VideoStatisticsRow stats={video.stats} />
+          ) : null}
+          <FavouritesButton videoId={video.id} />
         </View>
       </View>
-      <View style={styles.bottomRow}>
-        <FavouritesButton videoId={video.id} />
-      </View>
-    </View>
-  )
-})
+    )
+  }
+)
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -63,7 +67,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   bottomRow: {
+    marginTop: 10,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     flex: 1
   },
   image: {

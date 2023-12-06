@@ -39,7 +39,8 @@ export const BaseVideoSchema = YTSearchVideoSchema.transform(video => ({
   publishedAt: video.snippet.publishedAt,
   publishTime: video.snippet.publishTime,
   thumb: video.snippet.thumbnails.default,
-  tags: video.statistics
+  tags: video.snippet.tags,
+  stats: video.statistics
 }))
 
 export type BaseVideoT = z.TypeOf<typeof BaseVideoSchema>

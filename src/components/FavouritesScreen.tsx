@@ -25,7 +25,9 @@ export const FavouritesScreen = () => {
   }, [])
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<ItemT>) => <VideoTile id={item} />,
+    ({ item }: ListRenderItemInfo<ItemT>) => (
+      <VideoTile id={item} includeMetadata />
+    ),
     []
   )
   return (
