@@ -31,7 +31,7 @@ export const searchSlice = createSlice({
       state,
       action: PayloadAction<{
         nextPageToken: string | undefined
-        videos: BaseVideoT[]
+        videos: BaseVideoT[] | undefined
       }>
     ) => {
       if (action.payload.nextPageToken) {
@@ -46,29 +46,8 @@ export const searchSlice = createSlice({
         state.pagination = undefined
       }
 
-      state.results = action.payload.videos.map(v => v.id)
+      state.results = action.payload.videos?.map(v => v.id)
     },
     reset: () => initialState
   }
 })
-
-/**
- *
- * videos: {
- *  videosById:  {
- *    [VideoId]:  {
- *      title,
- *      description,
- *      thumbnail,
- *      metadata // only if coming from api/videos
- *    }
- *  }
- * }
- *
- * search: {
- *  results: VideoId[]
- * }
- *
- * // search reuslts => onPress => video screen => renderMetadata()
- *
- * */

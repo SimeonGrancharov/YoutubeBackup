@@ -11,11 +11,16 @@ import { useReduxSelector } from '../hooks/useReduxSelector'
 import { SearchInput } from './SearchInput'
 import { BaseVideoT } from '../types/Video'
 import { SearchResult } from './SearchResult'
+import { SearchLoader } from '../constants/loaders'
+import { Loading } from './Loading'
 
 type ItemT = BaseVideoT['id']
 
 export const SearchScreen = () => {
   const searchResults = useReduxSelector(state => state.search.results)
+  const isLoading = useReduxSelector(
+    state => state.loaders.loadersById[SearchLoader]
+  )
 
   const renderItem = useCallback(({ item }: ListRenderItemInfo<ItemT>) => {
     return <SearchResult videoId={item} />
@@ -24,6 +29,7 @@ export const SearchScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <SearchInput />
+      {!searchResults && isLoading ? <Loading /> : null}
       {searchResults !== undefined ? (
         <FlatList<ItemT>
           data={searchResults}
