@@ -1,11 +1,5 @@
 import React, { useCallback } from 'react'
-import {
-  FlatList,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
+import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native'
 import { colors } from '../constants/colors'
 import { useReduxSelector } from '../hooks/useReduxSelector'
 import { SearchInput } from './SearchInput'
@@ -13,6 +7,7 @@ import { BaseVideoT } from '../types/Video'
 import { SearchResult } from './SearchResult'
 import { SearchLoader } from '../constants/loaders'
 import { Loading } from './Loading'
+import { Empty } from './Empty'
 
 type ItemT = BaseVideoT['id']
 
@@ -36,7 +31,7 @@ export const SearchScreen = () => {
           style={styles.resultsMainContainer}
           contentContainerStyle={styles.resultsContainer}
           renderItem={renderItem}
-          ListEmptyComponent={<Text>Nothing to show, eh</Text>}
+          ListEmptyComponent={<Empty text="Nothing to show" />}
         />
       ) : null}
     </View>
