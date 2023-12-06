@@ -46,14 +46,14 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
 
     // For some reason the YT API returns data that is previously returned
     // Check this =>> https://stackoverflow.com/questions/72438701/youtube-data-api-search-returning-repeating-items
-    result.items = result.items.filter(
+    result.items = result.items?.filter(
       video => !searchResults?.includes(video.id)
     )
 
     if (!searchResults || action.payload !== lastSearchQuery) {
       yield put(searchSlice.actions.setResults(result.items))
     } else {
-      yield put(searchSlice.actions.addResults(result.items))
+      yield put(searchSlice.actions.addResults(result.items ?? []))
     }
 
     yield put(
@@ -62,7 +62,9 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
 
     yield put(searchSlice.actions.setLastSearchQuery(action.payload))
 
-    yield put(videosSlice.actions.consumeVideos(result.items))
+    if (result.items) {
+      yield put(videosSlice.actions.consumeVideos(result.items))
+    }
 
     console.log(JSON.stringify(result))
   } catch (err) {
