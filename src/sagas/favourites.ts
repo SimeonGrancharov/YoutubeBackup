@@ -3,7 +3,7 @@ import { GoogleSignin, User } from '@react-native-google-signin/google-signin'
 import { all, call, put, select, takeLatest } from 'redux-saga/effects'
 import { favouritesSlice } from '../reducers/favourites'
 import { videosSlice } from '../reducers/videos'
-import { selectFavourites } from '../selectors/selectors'
+import { selectFavourites } from '../selectors/favourites'
 
 function* onFavouritesChanged() {
   const favourites: ReturnType<typeof selectFavourites> = yield select(

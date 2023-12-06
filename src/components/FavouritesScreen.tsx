@@ -3,7 +3,8 @@ import { View, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { useReduxSelector } from '../hooks/useReduxSelector'
 import { videosSlice } from '../reducers/videos'
-import { selectFavourites } from '../selectors/selectors'
+import { selectFavourites } from '../selectors/favourites'
+import { VideoTile } from './VideoTile'
 
 export const FavouritesScreen = () => {
   const favourites = useReduxSelector(selectFavourites)
@@ -16,11 +17,7 @@ export const FavouritesScreen = () => {
   return (
     <View>
       {favourites.length ? (
-        favourites.map(fav => (
-          <View key={fav}>
-            <Text>{fav}</Text>
-          </View>
-        ))
+        favourites.map(fav => <VideoTile key={fav} id={fav} />)
       ) : (
         <Text>No favourites yet</Text>
       )}

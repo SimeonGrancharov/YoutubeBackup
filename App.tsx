@@ -53,6 +53,10 @@ function App(): JSX.Element {
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={{
+              headerStyle: {
+                shadowColor: 'transparent', // this covers iOS
+                elevation: 0 // this covers Android},
+              },
               headerRight: () => {
                 return (
                   <Pressable onPress={onLogOutPress}>
