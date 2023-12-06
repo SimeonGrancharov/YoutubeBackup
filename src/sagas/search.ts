@@ -9,12 +9,8 @@ import { searchByQuery } from '../services/youtube'
 function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
   if (!action.payload) {
     // Delete the search items
-    yield put(
-      searchSlice.actions.setResults({
-        videos: undefined,
-        nextPageToken: undefined
-      })
-    )
+    yield put(searchSlice.actions.setResults(undefined))
+    yield put(searchSlice.actions.setPagination(undefined))
 
     return
   }
@@ -38,6 +34,11 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
 
     yield put(
       searchSlice.actions.setPagination(result.nextPageToken ?? undefined)
+    )
+
+    // For some reason the YT API returns data that is previously returned
+    result.items = result.items.filter(
+      video => !searchResults?.includes(video.id)
     )
 
     if (!searchResults) {

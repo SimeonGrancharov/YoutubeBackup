@@ -16,7 +16,7 @@ export async function searchByQuery(
   const response = await fetch(
     `https://www.googleapis.com/youtube/v3/search?q=${encodeURIComponent(
       query
-    )}&type=video&part=snippet&maxResults=20${
+    )}&type=video&part=snippet&maxResults=10${
       nextPageToken ? `&pageToken=${nextPageToken}` : ''
     }`,
     {
