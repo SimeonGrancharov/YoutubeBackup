@@ -6,6 +6,7 @@ type ColorT =
   | 'text2'
   | 'negative'
   | 'accent'
+  | 'lightGrey'
 
 export const colors: Record<ColorT, string> = {
   white: 'white',
@@ -14,5 +15,6 @@ export const colors: Record<ColorT, string> = {
   text1: '#2A2828',
   text2: '#7B7676',
   negative: '#F44336',
-  accent: '#61B0EF'
+  accent: '#61B0EF',
+  lightGrey: '#BDBDBD'
 }

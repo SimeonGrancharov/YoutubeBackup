@@ -138,10 +138,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20
   },
   pinch: {
-    width: 60,
-    height: 15,
+    width: 50,
+    height: 10,
     borderRadius: 15,
-    backgroundColor: colors.text1,
+    backgroundColor: colors.lightGrey,
     marginBottom: 10
   }
 })
