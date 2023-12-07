@@ -33,7 +33,11 @@ export const FavouritesButton = React.memo(
     }, [isInFavourites])
 
     return (
-      <TouchableOpacity activeOpacity={0.8} onPress={onFavouritesButtonPress}>
+      <TouchableOpacity
+        testID={`FavouritesButton-${isInFavourites ? 'Active' : 'Inactive'}`}
+        activeOpacity={0.8}
+        onPress={onFavouritesButtonPress}
+      >
         {isInFavourites ? (
           <HeartFilled style={styles.icon} fill={colors.negative} />
         ) : (

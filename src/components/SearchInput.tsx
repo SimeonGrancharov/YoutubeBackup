@@ -29,7 +29,6 @@ export const SearchInput = React.memo(() => {
         ref={inputRef}
         style={styles.input}
         placeholder="Search..."
-        // You can add other TextInput props as needed
         onSubmitEditing={onSubmit}
         returnKeyType="go"
       />

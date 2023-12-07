@@ -1,7 +1,3 @@
-/**
- * @format
- */
-
 import 'react-native'
 import React from 'react'
 
@@ -39,7 +35,7 @@ describe('VideoTile', () => {
       </Provider>
     )
 
-    expect(res.queryByTestId('VideoStatisticsRow')).toBeTruthy()
+    expect(res.queryByTestId('VideoStatisticsRow')).toBeInTheDocument()
   })
 
   it('does not render bottom row ', () => {
