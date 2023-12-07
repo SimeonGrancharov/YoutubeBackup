@@ -15,6 +15,7 @@ export const VideoStatisticsRow = React.memo(
   (props: { stats: BaseVideoT['stats']; stretch?: boolean }) => {
     return (
       <View
+        testID="VideoStatisticsRow"
         style={[
           styles.mainContainer,
           props.stretch ? { justifyContent: 'space-between' } : undefined
