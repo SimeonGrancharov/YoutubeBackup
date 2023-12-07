@@ -35,7 +35,7 @@ describe('VideoTile', () => {
       </Provider>
     )
 
-    expect(res.queryByTestId('VideoStatisticsRow')).toBeInTheDocument()
+    expect(res.queryByTestId('VideoStatisticsRow')).toBeTruthy()
   })
 
   it('does not render bottom row ', () => {

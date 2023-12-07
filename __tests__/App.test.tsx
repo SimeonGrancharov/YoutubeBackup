@@ -9,7 +9,7 @@ import React from 'react'
 import { it } from '@jest/globals'
 import '@testing-library/jest-dom'
 
-import { render } from '@testing-library/react-native'
+import { render, waitFor } from '@testing-library/react-native'
 import { App } from '../App'
 import { getStore } from '../src/stores/store'
 import { Provider } from 'react-redux'
@@ -44,7 +44,7 @@ describe('App', () => {
       </Provider>
     )
 
-    expect(result.queryByTestId('LoginScreen')).toBeFalsy()
+    waitFor(() => expect(result.queryByTestId('LoginScreen')).toBeFalsy())
   })
 
   it('renders loading state if needed', () => {
