@@ -19,6 +19,7 @@ export const favouritesSlice = createSlice({
     ) => {
       state.favourites = action.payload ?? []
     },
+    requestAddFavourite: (_, __: PayloadAction<BaseVideoT['id']>) => {},
     addFavourite: (state, action: PayloadAction<BaseVideoT['id']>) => {
       // Sort them from newest
       state.favourites.unshift(action.payload)

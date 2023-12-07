@@ -17,7 +17,9 @@ export const FavouritesButton = React.memo(
       return favs?.includes(props.videoId)
     })
 
-    const addToFavourites = useReduxAction(favouritesSlice.actions.addFavourite)
+    const requestAddToFavourites = useReduxAction(
+      favouritesSlice.actions.requestAddFavourite
+    )
     const removeFromFavourites = useReduxAction(
       favouritesSlice.actions.removeFavourite
     )
@@ -26,7 +28,7 @@ export const FavouritesButton = React.memo(
       if (isInFavourites) {
         removeFromFavourites(props.videoId)
       } else {
-        addToFavourites(props.videoId)
+        requestAddToFavourites(props.videoId)
       }
     }, [isInFavourites])
 
