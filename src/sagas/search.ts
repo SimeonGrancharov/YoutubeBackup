@@ -29,7 +29,7 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
 
   try {
     yield put(loadersSlice.actions.startLoading(SearchLoader))
-    // Dummy but ... yield
+
     const pagination: ReturnType<typeof selectPagination> = yield select(
       selectPagination
     )
