@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 import { BaseVideoT } from '../types/Video'
 
 type StateT = {
@@ -16,7 +16,23 @@ export const videosSlice = createSlice({
   reducers: {
     consumeVideos: (state, action: PayloadAction<BaseVideoT[]>) => {
       action.payload.forEach(video => {
-        state.videosById[video.id] = video
+        let currentVideo = state.videosById[video.id]
+
+        if (currentVideo) {
+          currentVideo = {
+            ...currentVideo,
+            ...video,
+            // Weirdo but search videos don't include these two props.
+            // When new data for video that is both in search and in favourites
+            // come, we want to preserve these two properties ¯\_(ツ)_/¯
+            tags: video.tags ?? currentVideo.tags,
+            stats: video.stats ?? currentVideo.stats
+          }
+        } else {
+          currentVideo = video
+        }
+
+        state.videosById[video.id] = currentVideo
       })
     },
     deleteVideos: (state, action: PayloadAction<BaseVideoT['id'][]>) => {
