@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, TouchableOpacity, StyleSheet, Text, View } from 'react-native'
 import { colors } from '../constants/colors'
 import { useOpenVideoInfoModal } from '../hooks/useOpenVideoInfoModal'
 import { useReduxSelector } from '../hooks/useReduxSelector'
@@ -27,7 +27,7 @@ export const VideoTile = React.memo(
     }
 
     return (
-      <Pressable onPress={openInfoModal}>
+      <TouchableOpacity onPress={openInfoModal} activeOpacity={0.8}>
         <View style={styles.mainContainer}>
           <View style={styles.contentContainer}>
             <Image
@@ -71,7 +71,7 @@ export const VideoTile = React.memo(
             </View>
           </View>
         </View>
-      </Pressable>
+      </TouchableOpacity>
     )
   }
 )

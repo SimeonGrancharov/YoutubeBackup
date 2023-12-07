@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Pressable, StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { colors } from '../constants/colors'
 import { useReduxAction } from '../hooks/useReduxAction'
 import { useReduxSelector } from '../hooks/useReduxSelector'
@@ -31,13 +31,13 @@ export const FavouritesButton = React.memo(
     }, [isInFavourites])
 
     return (
-      <Pressable onPress={onFavouritesButtonPress}>
+      <TouchableOpacity activeOpacity={0.8} onPress={onFavouritesButtonPress}>
         {isInFavourites ? (
           <HeartFilled style={styles.icon} fill={colors.negative} />
         ) : (
           <HeartIcon style={styles.icon} />
         )}
-      </Pressable>
+      </TouchableOpacity>
     )
   }
 )
