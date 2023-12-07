@@ -10,9 +10,7 @@ export const VideoStat = React.memo(
     return (
       <View style={styles.mainContainer}>
         {props.name === 'views' && <EyeIcon style={styles.icon} />}
-        {props.name === 'comments' && (
-          <BubbleIcon style={{ width: 18, height: 18, top: 2 }} />
-        )}
+        {props.name === 'comments' && <BubbleIcon style={styles.bubbleIcon} />}
         {props.name === 'likes' && <ThumbIcon style={styles.icon} />}
         <Text style={styles.value}>{props.value}</Text>
       </View>
@@ -25,9 +23,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between'
   },
+  bubbleIcon: {
+    width: 18,
+    height: 18,
+    top: 2
+  },
   icon: {
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
     marginBottom: 5
   },
   value: {
