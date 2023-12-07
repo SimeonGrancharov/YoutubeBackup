@@ -5,6 +5,7 @@ import { favouritesSlice } from '../reducers/favourites'
 import { searchSlice } from '../reducers/search'
 import { userSlice } from '../reducers/user'
 import { videosSlice } from '../reducers/videos'
+import { setHeaders } from '../services/headers'
 
 function* onLogIn(action: ReturnType<typeof userSlice.actions.logIn>) {
   try {
@@ -15,6 +16,13 @@ function* onLogIn(action: ReturnType<typeof userSlice.actions.logIn>) {
     } else {
       yield call(GoogleSignin.signIn)
     }
+
+    const tokens: Awaited<ReturnType<typeof GoogleSignin.getTokens>> =
+      yield call(GoogleSignin.getTokens)
+
+    setHeaders({
+      Authorization: `Bearer ${tokens.accessToken}`
+    })
 
     // Init favourites. It must not be blocking. That's why the fork
     yield fork(function* () {
