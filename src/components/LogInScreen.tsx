@@ -13,7 +13,7 @@ export const LogInScreen = React.memo(() => {
   }, [])
 
   return (
-    <View style={styles.loginContainer}>
+    <View testID="LoginScreen" style={styles.loginContainer}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>YouTube Backup</Text>
         <Text style={styles.description}>
@@ -26,10 +26,6 @@ export const LogInScreen = React.memo(() => {
         style={styles.loginButtonContainer}
         onPress={logIn}
       >
-        <Image
-          source={require('../../assets/google-logo.png')}
-          style={styles.googleLogo}
-        />
         <Text style={styles.signInText}>Sign in with Google</Text>
       </TouchableOpacity>
     </View>

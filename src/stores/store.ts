@@ -11,3 +11,13 @@ export const store = configureStore({
 })
 
 saga.run(rootSaga)
+
+// For tests
+export function getStore(
+  preloadedState?: Partial<ReturnType<typeof rootReducer>>
+) {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState
+  })
+}

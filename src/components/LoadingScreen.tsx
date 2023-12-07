@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native'
 import { colors } from '../constants/colors'
 import { Loading } from './Loading'
 
-export const LoadingScreen = React.memo(() => {
+export const LoadingScreen = React.memo((props: { testID?: string }) => {
   return (
-    <View style={styles.mainContainer}>
+    <View style={styles.mainContainer} testID={props.testID}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>YouTube Backup</Text>
       </View>
