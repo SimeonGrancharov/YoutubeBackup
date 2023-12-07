@@ -14,6 +14,7 @@ import { SearchIcon } from './src/components/icons/Search'
 import { HeartIcon } from './src/components/icons/Heart'
 import { LogOutButton } from './src/components/LogOutButton'
 import { LogInScreen } from './src/components/LogInScreen'
+import { LoadingScreen } from './src/components/LoadingScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -23,16 +24,7 @@ function App(): JSX.Element {
   const isLoggedIn = useReduxSelector(state => state.user.isLoggedIn)
 
   if (appStatus === 'initializing') {
-    return (
-      <View
-        style={{
-          flex: 1,
-          height: '100%',
-          width: '100%',
-          backgroundColor: 'red'
-        }}
-      />
-    )
+    return <LoadingScreen />
   }
 
   return (
