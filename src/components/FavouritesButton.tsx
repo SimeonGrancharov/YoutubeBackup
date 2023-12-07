@@ -35,7 +35,12 @@ export const FavouritesButton = React.memo(
         {isInFavourites ? (
           <HeartFilled style={styles.icon} fill={colors.negative} />
         ) : (
-          <HeartIcon style={styles.icon} />
+          <HeartIcon
+            style={{
+              width: 21,
+              height: 21
+            }}
+          />
         )}
       </TouchableOpacity>
     )

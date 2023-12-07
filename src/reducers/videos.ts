@@ -19,7 +19,10 @@ export const videosSlice = createSlice({
         state.videosById[video.id] = video
       })
     },
-    fetch: (_, __: PayloadAction<BaseVideoT['id'][]>) => {},
+    fetch: (
+      _,
+      __: PayloadAction<{ videos: BaseVideoT['id'][]; loader?: string }>
+    ) => {},
     reset: () => initialState
   }
 })

@@ -75,10 +75,6 @@ function App(): JSX.Element {
             <NavigationContainer>
               <Tab.Navigator
                 screenOptions={{
-                  headerStyle: {
-                    shadowColor: 'transparent', // remove border of header for iOS
-                    elevation: 0 // remove border of header for Android
-                  },
                   tabBarLabelStyle: {
                     fontSize: 13,
                     lineHeight: 15,
@@ -103,6 +99,10 @@ function App(): JSX.Element {
                   name="Search"
                   component={SearchScreen}
                   options={{
+                    headerStyle: {
+                      shadowColor: 'transparent', // remove border of header for iOS
+                      elevation: 0 // remove border of header for Android
+                    },
                     tabBarIcon: ({ focused }) => (
                       <SearchIcon
                         style={{ width: 30, height: 30 }}

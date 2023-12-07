@@ -30,7 +30,7 @@ function* onFavouritesChanged() {
 function* onFavouriteAdded(
   action: ReturnType<typeof favouritesSlice.actions.addFavourite>
 ) {
-  yield put(videosSlice.actions.fetch([action.payload]))
+  yield put(videosSlice.actions.fetch({ videos: [action.payload] }))
 }
 
 export default function* favouritesSaga() {
