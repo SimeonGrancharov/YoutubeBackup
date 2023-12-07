@@ -19,6 +19,11 @@ export const videosSlice = createSlice({
         state.videosById[video.id] = video
       })
     },
+    deleteVideos: (state, action: PayloadAction<BaseVideoT['id'][]>) => {
+      for (const id of action.payload) {
+        delete state.videosById[id]
+      }
+    },
     fetch: (
       _,
       __: PayloadAction<{ videos: BaseVideoT['id'][]; loader?: string }>

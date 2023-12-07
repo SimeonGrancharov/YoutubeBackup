@@ -1,8 +1,10 @@
+import { act } from 'react-test-renderer'
 import { all, select, call, put, takeLatest } from 'redux-saga/effects'
 import { SearchLoader } from '../constants/loaders'
 import { loadersSlice } from '../reducers/loaders'
 import { searchSlice } from '../reducers/search'
 import { videosSlice } from '../reducers/videos'
+import { selectFavourites } from '../selectors/favourites'
 import {
   selectLastSearchQuery,
   selectPagination,
@@ -50,6 +52,20 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
       video => !searchResults?.includes(video.id)
     )
 
+    if (action.payload !== lastSearchQuery && searchResults) {
+      // If query has changed and we have searchResults which are for the lastSearchQuery =>
+      // filter out the videos that are not in favourites and delete them
+      const favourites: ReturnType<typeof selectFavourites> = yield select(
+        selectFavourites
+      )
+
+      yield put(
+        videosSlice.actions.deleteVideos(
+          searchResults.filter(id => !favourites.includes(id))
+        )
+      )
+    }
+
     if (!searchResults || action.payload !== lastSearchQuery) {
       yield put(searchSlice.actions.setResults(result.items))
     } else {
@@ -65,8 +81,6 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
     if (result.items) {
       yield put(videosSlice.actions.consumeVideos(result.items))
     }
-
-    console.log(JSON.stringify(result))
   } catch (err) {
     console.log('>>>>>>>>> err ', err)
   } finally {
