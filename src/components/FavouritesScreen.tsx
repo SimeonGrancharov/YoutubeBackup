@@ -12,6 +12,7 @@ import { useReduxSelector } from '../hooks/useReduxSelector'
 import { videosSlice } from '../reducers/videos'
 import { selectFavourites } from '../selectors/favourites'
 import { BaseVideoT } from '../types/Video'
+import { Empty } from './Empty'
 import { VideoTile } from './VideoTile'
 
 type ItemT = BaseVideoT['id']
@@ -35,7 +36,9 @@ export const FavouritesScreen = () => {
       <FlatList<ItemT>
         data={favourites}
         renderItem={renderItem}
-        ListEmptyComponent={<Text>No favourites yet</Text>}
+        ListEmptyComponent={
+          <Empty text="Nothing here yet. Go and add your first video from Search" />
+        }
         keyExtractor={item => item}
       />
     </View>

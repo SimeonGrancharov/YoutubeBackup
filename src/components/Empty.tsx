@@ -14,12 +14,14 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     marginTop: 70,
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingHorizontal: 40
   },
   text: {
     fontSize: 25,
     lineHeight: 30,
     color: colors.text1,
-    fontWeight: '500'
+    fontWeight: '500',
+    textAlign: 'center'
   }
 })

@@ -76,16 +76,21 @@ function App(): JSX.Element {
               <Tab.Navigator
                 screenOptions={{
                   headerStyle: {
-                    shadowColor: 'transparent', // remove for iOS
-                    elevation: 0 // remove for Android
+                    shadowColor: 'transparent', // remove border of header for iOS
+                    elevation: 0 // remove border of header for Android
+                  },
+                  tabBarLabelStyle: {
+                    fontSize: 13,
+                    lineHeight: 15,
+                    fontWeight: '500'
                   },
                   headerRight: () => {
                     return (
                       <Pressable onPress={onLogOutPress}>
                         <LogOutIcon
                           style={{
-                            width: 30,
-                            height: 30,
+                            width: 25,
+                            height: 25,
                             marginRight: 20
                           }}
                         />

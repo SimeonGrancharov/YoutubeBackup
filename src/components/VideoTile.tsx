@@ -65,6 +65,7 @@ export const VideoTile = React.memo(
                 videoId={video.id}
                 size="small"
                 marginRight={15}
+                marginTop={-2}
               />
               <FavouritesButton videoId={video.id} />
             </View>
