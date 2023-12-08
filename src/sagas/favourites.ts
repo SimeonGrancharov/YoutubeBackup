@@ -18,8 +18,6 @@ function* onFetch() {
       selectFavourites
     )
 
-    yield delay(2000)
-
     yield call(fetchAndConsumeVideos, videoIds)
     yield put(favouritesSlice.actions.setFetchFailed(false))
   } catch (err) {
