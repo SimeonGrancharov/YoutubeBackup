@@ -1,10 +1,11 @@
+import React from 'react'
 import { useCallback } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { useReduxAction } from '../hooks/useReduxAction'
 import { userSlice } from '../reducers/user'
 import { LogOutIcon } from './icons/LogOut'
 
-export const LogOutButton = () => {
+export const LogOutButton = React.memo(() => {
   const logOutAction = useReduxAction(userSlice.actions.logOut)
   const logOut = useCallback(() => logOutAction(), [])
 
@@ -13,7 +14,7 @@ export const LogOutButton = () => {
       <LogOutIcon style={styles.icon} />
     </TouchableOpacity>
   )
-}
+})
 
 const styles = StyleSheet.create({
   icon: {

@@ -21,106 +21,108 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
 const windowHeight = Dimensions.get('window').height
 
-export const VideoInfoModalProvider = (props: {
-  children: React.ReactNode
-}) => {
-  const [openedVideoId, setOpenedVideoId] = useState<
-    BaseVideoT['id'] | undefined
-  >()
-  const [contentHeight, setContentHeight] = useState<number | undefined>()
+export const VideoInfoModalProvider = React.memo(
+  (props: { children: React.ReactNode }) => {
+    const [openedVideoId, setOpenedVideoId] = useState<
+      BaseVideoT['id'] | undefined
+    >()
 
-  const animationValue = useSharedValue(0)
+    const [contentHeight, setContentHeight] = useState<number | undefined>()
 
-  useEffect(() => {
-    // Just reset the value whenever id changes
-    animationValue.value = 0
-  }, [openedVideoId])
+    const animationValue = useSharedValue(0)
 
-  const openVideoInfoModal = useCallback(
-    (videoId: BaseVideoT['id']) => {
-      if (openedVideoId) {
-        console.log(
-          'Trying to open video, when another is opened. Terminating...'
-        )
-      }
+    useEffect(() => {
+      // Just reset the value whenever id changes
+      animationValue.value = 0
+    }, [openedVideoId])
 
-      setOpenedVideoId(videoId)
-    },
-    [openedVideoId]
-  )
+    const openVideoInfoModal = useCallback(
+      (videoId: BaseVideoT['id']) => {
+        if (openedVideoId) {
+          console.log(
+            'Trying to open video, when another is opened. Terminating...'
+          )
+          return
+        }
 
-  const pan = Gesture.Pan()
-    .onChange(ev => {
-      // Simply do not allow dragging upwards above the content
-      animationValue.value = Math.max(animationValue.value + ev.changeY, 0)
-    })
-    .onFinalize(() => {
-      // If dragged to half the height -> close the modal
-      if (animationValue.value > (contentHeight ?? 0) / 2) {
-        animationValue.value = withTiming(
-          contentHeight ?? 0,
-          { duration: 200 },
-          () => {
-            runOnJS(setOpenedVideoId)(undefined)
-          }
-        )
-        return
-      }
+        setOpenedVideoId(videoId)
+      },
+      [openedVideoId]
+    )
 
-      // Else just return it to initial state
-      animationValue.value = withSpring(0, { duration: 500 })
-    })
+    const pan = Gesture.Pan()
+      .onChange(ev => {
+        // Simply do not allow dragging upwards above the content
+        animationValue.value = Math.max(animationValue.value + ev.changeY, 0)
+      })
+      .onFinalize(() => {
+        // If dragged to half the height -> close the modal
+        if (animationValue.value > (contentHeight ?? 0) / 2) {
+          animationValue.value = withTiming(
+            contentHeight ?? 0,
+            { duration: 200 },
+            () => {
+              runOnJS(setOpenedVideoId)(undefined)
+            }
+          )
+          return
+        }
 
-  const contextValue = useMemo(
-    () => ({
-      openVideoInfoModal
-    }),
-    [openVideoInfoModal]
-  )
+        // Else just return it to initial state
+        animationValue.value = withSpring(0, { duration: 500 })
+      })
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: animationValue.value }]
-  }))
+    const contextValue = useMemo(
+      () => ({
+        openVideoInfoModal
+      }),
+      [openVideoInfoModal]
+    )
 
-  return (
-    <VideoInfoModalContext.Provider value={contextValue}>
-      {props.children}
-      {openedVideoId ? (
-        <>
-          <AnimatedPressable
-            entering={FadeIn}
-            exiting={FadeOut}
-            onPress={() => setOpenedVideoId(undefined)}
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              zIndex: 49
-            }}
-          />
-          <Animated.View
-            entering={SlideInDown}
-            exiting={SlideOutDown}
-            style={[styles.bottomSheet, animatedStyle]}
-            onLayout={ev => {
-              if (contentHeight) {
-                return
-              }
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ translateY: animationValue.value }]
+    }))
 
-              setContentHeight(ev.nativeEvent.layout.height)
-            }}
-          >
-            <GestureDetector gesture={pan}>
-              <View style={styles.pinch} />
-            </GestureDetector>
-            <View style={styles.contentContainer}>
-              <VideoInfoModalContent id={openedVideoId} />
-            </View>
-          </Animated.View>
-        </>
-      ) : null}
-    </VideoInfoModalContext.Provider>
-  )
-}
+    return (
+      <VideoInfoModalContext.Provider value={contextValue}>
+        {props.children}
+        {openedVideoId ? (
+          <>
+            <AnimatedPressable
+              entering={FadeIn}
+              exiting={FadeOut}
+              onPress={() => setOpenedVideoId(undefined)}
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                zIndex: 49
+              }}
+            />
+            <Animated.View
+              entering={SlideInDown}
+              exiting={SlideOutDown}
+              style={[styles.bottomSheet, animatedStyle]}
+              onLayout={ev => {
+                if (contentHeight) {
+                  return
+                }
+
+                setContentHeight(ev.nativeEvent.layout.height)
+              }}
+            >
+              <GestureDetector gesture={pan}>
+                <View style={styles.pinch} />
+              </GestureDetector>
+              <View style={styles.contentContainer}>
+                <VideoInfoModalContent id={openedVideoId} />
+              </View>
+            </Animated.View>
+          </>
+        ) : null}
+      </VideoInfoModalContext.Provider>
+    )
+  }
+)
 
 const styles = StyleSheet.create({
   bottomSheet: {

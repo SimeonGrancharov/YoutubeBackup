@@ -9,6 +9,7 @@ import { ClearIcon } from './icons/Clear'
 export const SearchInput = React.memo(() => {
   const inputRef = useRef<TextInput | null>(null)
   const search = useReduxAction(searchSlice.actions.search)
+
   const [value, setValue] = useState<string>('')
 
   const onSubmit = useCallback(() => {

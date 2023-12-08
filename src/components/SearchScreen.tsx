@@ -4,7 +4,6 @@ import { colors } from '../constants/colors'
 import { useReduxSelector } from '../hooks/useReduxSelector'
 import { SearchInput } from './SearchInput'
 import { BaseVideoT } from '../types/Video'
-import { SearchResult } from './SearchResult'
 import { SearchLoader } from '../constants/loaders'
 import { Loading } from './Loading'
 import { Empty } from './Empty'
@@ -16,18 +15,19 @@ import {
   selectSearchResults
 } from '../selectors/search'
 import { useStateToRender } from '../hooks/useStateToRender'
+import { VideoTile } from './VideoTile'
 
 type ItemT = BaseVideoT['id']
 
-export const SearchScreen = () => {
-  const searchResults = useReduxSelector(selectSearchResults)
-  const searchQuery = useReduxSelector(selectLastSearchQuery)
-  const hasFetchFailed = useReduxSelector(state => state.search.fetchFailed)
+export const SearchScreen = React.memo(() => {
   const search = useReduxAction(searchSlice.actions.search)
   const pagination = useReduxSelector(selectPagination)
   const isLoading = useReduxSelector(
     state => state.loaders.loadersById[SearchLoader]
   )
+  const searchResults = useReduxSelector(selectSearchResults)
+  const searchQuery = useReduxSelector(selectLastSearchQuery)
+  const hasFetchFailed = useReduxSelector(state => state.search.fetchFailed)
 
   const stateToRender = useStateToRender(
     hasFetchFailed,
@@ -36,7 +36,7 @@ export const SearchScreen = () => {
   )
 
   const renderItem = useCallback(({ item }: ListRenderItemInfo<ItemT>) => {
-    return <SearchResult videoId={item} />
+    return <VideoTile id={item} />
   }, [])
 
   const onEndReached = useCallback(() => {
@@ -53,7 +53,7 @@ export const SearchScreen = () => {
       {stateToRender === 'error' ? (
         <Empty text="Oh snap, something went wrong. Try searching again" />
       ) : null}
-      {stateToRender === 'loading' && !searchResults ? <Loading /> : null}
+      {stateToRender === 'loading' ? <Loading /> : null}
       {stateToRender === 'data' ? (
         <FlatList<ItemT>
           data={searchResults}
@@ -67,7 +67,7 @@ export const SearchScreen = () => {
       ) : null}
     </View>
   )
-}
+})
 
 const styles = StyleSheet.create({
   mainContainer: {

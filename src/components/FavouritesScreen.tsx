@@ -14,15 +14,18 @@ import { VideoTile } from './VideoTile'
 
 type ItemT = BaseVideoT['id']
 
-export const FavouritesScreen = () => {
-  const favourites = useReduxSelector(selectFavourites)
-  const [data, setData] = useState<BaseVideoT['id'][]>(favourites)
-  const fetchFavourites = useReduxAction(favouritesSlice.actions.fetch)
-  const isFocused = useIsFocused()
+export const FavouritesScreen = React.memo(() => {
+  // favourites -> string[]
   const isFetchingFavourites = useReduxSelector(
     state => state.loaders.loadersById[FavouriteVideosLoader]
   )
   const hasFetchFailed = useReduxSelector(state => state.favourites.fetchFailed)
+  const favourites = useReduxSelector(selectFavourites)
+  const [data, setData] = useState<BaseVideoT['id'][]>(favourites)
+
+  const fetchFavourites = useReduxAction(favouritesSlice.actions.fetch)
+
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     // Explanation:
@@ -77,7 +80,7 @@ export const FavouritesScreen = () => {
       )}
     </View>
   )
-}
+})
 
 const styles = StyleSheet.create({
   mainContainer: {

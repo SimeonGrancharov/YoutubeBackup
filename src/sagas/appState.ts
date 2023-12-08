@@ -24,9 +24,9 @@ function* init() {
     }
 
     //Brief delay for a better experience
-    yield delay(1000)
+    yield delay(500)
   } catch (err) {
-    console.log('>>>>>>>> ', err)
+    console.log('appState init error', err)
   } finally {
     yield put(appStateSlice.actions.setStatus('ready'))
   }

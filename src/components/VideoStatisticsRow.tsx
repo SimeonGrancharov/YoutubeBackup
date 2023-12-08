@@ -4,13 +4,6 @@ import { BaseVideoT } from '../types/Video'
 import { formatNumberCompact } from '../utils/formatters'
 import { VideoStat } from './VideoStat'
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    columnGap: 15
-  }
-})
-
 export const VideoStatisticsRow = React.memo(
   (props: { stats: BaseVideoT['stats']; stretch?: boolean }) => {
     return (
@@ -39,3 +32,10 @@ export const VideoStatisticsRow = React.memo(
     )
   }
 )
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flexDirection: 'row',
+    columnGap: 15
+  }
+})

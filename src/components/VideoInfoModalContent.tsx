@@ -1,3 +1,4 @@
+import React from 'react'
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { colors } from '../constants/colors'
@@ -9,64 +10,71 @@ import { FavouritesButton } from './FavouritesButton'
 import { OpenVideoButton } from './OpenVideoButton'
 import { VideoStatisticsRow } from './VideoStatisticsRow'
 
-export const VideoInfoModalContent = (props: { id: BaseVideoT['id'] }) => {
-  const video = useReduxSelector(state => selectVideo(state, props.id))
-  const safeAreaInsets = useSafeAreaInsets()
+export const VideoInfoModalContent = React.memo(
+  (props: { id: BaseVideoT['id'] }) => {
+    const video = useReduxSelector(state => selectVideo(state, props.id))
+    const safeAreaInsets = useSafeAreaInsets()
 
-  if (!video) {
-    return null
-  }
+    if (!video) {
+      return null
+    }
 
-  return (
-    <ScrollView
-      contentContainerStyle={[
-        styles.mainContainer,
-        {
-          paddingBottom: safeAreaInsets.bottom + 20
-        }
-      ]}
-    >
-      <View style={styles.header}>
-        <View style={styles.headerLeftButton}>
-          <FavouritesButton videoId={video.id} />
+    return (
+      <ScrollView
+        contentContainerStyle={[
+          styles.mainContainer,
+          {
+            paddingBottom: safeAreaInsets.bottom + 20
+          }
+        ]}
+      >
+        <View style={styles.header}>
+          <View style={styles.headerLeftButton}>
+            <FavouritesButton videoId={video.id} />
+          </View>
+          <Text style={styles.headerTitle}>Video</Text>
+          <View style={styles.headerRightButton}>
+            <OpenVideoButton videoId={video.id} size="big" />
+          </View>
         </View>
-        <Text style={styles.headerTitle}>Video</Text>
-        <View style={styles.headerRightButton}>
-          <OpenVideoButton videoId={video.id} size="big" />
-        </View>
-      </View>
-      <View style={styles.content}>
-        <View style={[styles.item, { paddingTop: 10 }]}>
-          <Text style={styles.title}>Title</Text>
-          <Text style={styles.value}>{video.title}</Text>
-        </View>
-        <View style={[styles.item, { paddingTop: 10 }]}>
-          <Text style={styles.title}>Published:</Text>
-          <Text style={styles.value}>{formatDateLong(video.publishedAt)}</Text>
-        </View>
-        {video.tags ? (
-          <View style={styles.item}>
-            <Text style={styles.title}>Tags</Text>
-            <Text style={[styles.value, { color: colors.accent }]}>
-              {video.tags?.join(', #')}
+
+        <View style={styles.content}>
+          <View style={[styles.item, { paddingTop: 10 }]}>
+            <Text style={styles.title}>Title</Text>
+            <Text style={styles.value}>{video.title}</Text>
+          </View>
+          <View style={[styles.item, { paddingTop: 10 }]}>
+            <Text style={styles.title}>Published</Text>
+            <Text style={styles.value}>
+              {formatDateLong(video.publishedAt)}
             </Text>
           </View>
-        ) : null}
-        {video.stats ? (
-          <View style={styles.item}>
-            <Text style={styles.title}>Stats</Text>
-            <VideoStatisticsRow stats={video.stats} stretch />
-          </View>
-        ) : null}
 
-        <View style={[styles.item, { borderBottomWidth: 0 }]}>
-          <Text style={styles.title}>Description</Text>
-          <Text style={styles.value}>{video.description}</Text>
+          {video.tags ? (
+            <View style={styles.item}>
+              <Text style={styles.title}>Tags</Text>
+              <Text style={[styles.value, { color: colors.accent }]}>
+                {video.tags?.join(', #')}
+              </Text>
+            </View>
+          ) : null}
+
+          {video.stats ? (
+            <View style={styles.item}>
+              <Text style={styles.title}>Stats</Text>
+              <VideoStatisticsRow stats={video.stats} stretch />
+            </View>
+          ) : null}
+
+          <View style={[styles.item, { borderBottomWidth: 0 }]}>
+            <Text style={styles.title}>Description</Text>
+            <Text style={styles.value}>{video.description}</Text>
+          </View>
         </View>
-      </View>
-    </ScrollView>
-  )
-}
+      </ScrollView>
+    )
+  }
+)
 
 const styles = StyleSheet.create({
   mainContainer: {},

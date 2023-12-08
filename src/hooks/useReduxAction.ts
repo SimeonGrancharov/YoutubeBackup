@@ -6,10 +6,11 @@ export function useReduxAction(
     type: string
     payload: any
   }
-) {
+): (...args: any) => void {
   const actionCreator = useRef(action)
   const dispatch = useDispatch()
 
+  // For referential stability
   actionCreator.current = action
 
   return useCallback((...args: any) => {

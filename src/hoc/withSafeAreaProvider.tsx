@@ -1,12 +1,12 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export function withSafeAreaProvider(
-  C: React.ComponentType
+  Component: React.ComponentType
 ): () => JSX.Element {
   return () => {
     return (
       <SafeAreaProvider>
-        <C />
+        <Component />
       </SafeAreaProvider>
     )
   }

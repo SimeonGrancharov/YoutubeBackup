@@ -22,7 +22,9 @@ export const favouritesSlice = createSlice({
     ) => {
       state.favourites = action.payload ?? []
     },
+
     requestAddFavourite: (_, __: PayloadAction<BaseVideoT['id']>) => {},
+
     addFavourite: (state, action: PayloadAction<BaseVideoT['id']>) => {
       // Sort them from newest
       state.favourites.unshift(action.payload)
@@ -30,9 +32,11 @@ export const favouritesSlice = createSlice({
     removeFavourite: (state, action: PayloadAction<BaseVideoT['id']>) => {
       state.favourites = state.favourites.filter(id => id !== action.payload)
     },
-    reset: () => initialState,
+
     setFetchFailed: (state, action: PayloadAction<boolean>) => {
       state.fetchFailed = action.payload
-    }
+    },
+
+    reset: () => initialState
   }
 })

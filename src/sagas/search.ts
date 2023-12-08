@@ -1,4 +1,3 @@
-import { act } from 'react-test-renderer'
 import { all, select, call, put, takeLatest } from 'redux-saga/effects'
 import { SearchLoader } from '../constants/loaders'
 import { loadersSlice } from '../reducers/loaders'
@@ -16,14 +15,9 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
   const lastSearchQuery: ReturnType<typeof selectLastSearchQuery> =
     yield select(selectLastSearchQuery)
 
-  // Reset the pagination on query changed. Best case will be to
-  // reset the results as well. But because of UX we want to preserve
-  // them while searching
-  if (lastSearchQuery !== action.payload) {
-    yield put(searchSlice.actions.setPagination(undefined))
-  }
+  const isNewSearch = lastSearchQuery !== action.payload
 
-  // Reset search results
+  // Reset search results on Submit empty text
   if (!action.payload) {
     yield put(searchSlice.actions.setResults(undefined))
     return
@@ -39,36 +33,36 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
     const result: Awaited<ReturnType<typeof searchByQuery>> = yield call(
       searchByQuery,
       action.payload,
-      pagination?.nextPageToken
+      !isNewSearch ? pagination?.nextPageToken : undefined
     )
 
-    const searchResults: ReturnType<typeof selectSearchResults> = yield select(
-      selectSearchResults
-    )
+    const lastSearchResults: ReturnType<typeof selectSearchResults> =
+      yield select(selectSearchResults)
 
-    // For some reason the YT API returns data that is previously returned
-    // Check this =>> https://stackoverflow.com/questions/72438701/youtube-data-api-search-returning-repeating-items
-    result.items = result.items?.filter(
-      video => !searchResults?.includes(video.id)
-    )
-
-    if (action.payload !== lastSearchQuery && searchResults) {
-      // If query has changed and we have searchResults which are for the lastSearchQuery =>
-      // filter out the videos that are not in favourites and delete them
-      const favourites: ReturnType<typeof selectFavourites> = yield select(
-        selectFavourites
-      )
-
-      yield put(
-        videosSlice.actions.deleteVideos(
-          searchResults.filter(id => !favourites.includes(id))
+    // If query has changed we always reset results with the new ones.
+    // We assume that this is the first request for the new query
+    if (isNewSearch) {
+      // Check if there are prev results, delete old videos that ARE NOT in favourites
+      if (lastSearchResults) {
+        const favourites: ReturnType<typeof selectFavourites> = yield select(
+          selectFavourites
         )
-      )
-    }
 
-    if (!searchResults || action.payload !== lastSearchQuery) {
-      yield put(searchSlice.actions.setResults(result.items))
+        yield put(
+          videosSlice.actions.deleteVideos(
+            lastSearchResults.filter(id => !favourites.includes(id))
+          )
+        )
+      }
+
+      yield put(searchSlice.actions.setResults(result.items ?? []))
     } else {
+      // For some reason the YT API returns data that is previously returned
+      // Check this =>> https://stackoverflow.com/questions/72438701/youtube-data-api-search-returning-repeating-items
+      result.items = result.items?.filter(
+        video => !lastSearchResults?.includes(video.id)
+      )
+
       yield put(searchSlice.actions.addResults(result.items ?? []))
     }
 
