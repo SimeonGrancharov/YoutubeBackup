@@ -40,7 +40,9 @@ export const FavouritesScreen = React.memo(() => {
   }, [favourites, isFocused])
 
   useEffect(() => {
-    fetchFavourites()
+    if (favourites.length) {
+      fetchFavourites()
+    }
   }, [])
 
   const renderItem = useCallback(
