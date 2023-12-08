@@ -9,7 +9,8 @@ import Animated, {
   SlideOutDown,
   useAnimatedStyle,
   useSharedValue,
-  withSpring
+  withSpring,
+  withTiming
 } from 'react-native-reanimated'
 import { colors } from '../constants/colors'
 import { VideoInfoModalContext } from '../context/VideoInfoModal'
@@ -56,9 +57,9 @@ export const VideoInfoModalProvider = (props: {
     .onFinalize(() => {
       // If dragged to half the height -> close the modal
       if (animationValue.value > (contentHeight ?? 0) / 2) {
-        animationValue.value = withSpring(
+        animationValue.value = withTiming(
           contentHeight ?? 0,
-          { duration: 500 },
+          { duration: 200 },
           () => {
             runOnJS(setOpenedVideoId)(undefined)
           }
@@ -138,8 +139,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20
   },
   pinch: {
-    width: 50,
-    height: 10,
+    width: 60,
+    height: 7,
     borderRadius: 15,
     backgroundColor: colors.lightGrey,
     marginBottom: 10

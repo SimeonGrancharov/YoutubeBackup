@@ -27,9 +27,13 @@ export const VideoInfoModalContent = (props: { id: BaseVideoT['id'] }) => {
       ]}
     >
       <View style={styles.header}>
-        <FavouritesButton videoId={video.id} />
+        <View style={styles.headerLeftButton}>
+          <FavouritesButton videoId={video.id} />
+        </View>
         <Text style={styles.headerTitle}>Video</Text>
-        <OpenVideoButton videoId={video.id} size="big" />
+        <View style={styles.headerRightButton}>
+          <OpenVideoButton videoId={video.id} size="big" />
+        </View>
       </View>
       <View style={styles.content}>
         <View style={[styles.item, { paddingTop: 10 }]}>
@@ -81,6 +85,14 @@ const styles = StyleSheet.create({
     lineHeight: 27,
     fontWeight: '500',
     color: colors.text1
+  },
+  headerRightButton: {
+    width: 30,
+    alignItems: 'flex-end'
+  },
+  headerLeftButton: {
+    width: 30,
+    alignItems: 'flex-start'
   },
   item: {
     paddingRight: 20,
