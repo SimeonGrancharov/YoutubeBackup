@@ -26,6 +26,10 @@ export const LogInScreen = React.memo(() => {
         style={styles.loginButtonContainer}
         onPress={logIn}
       >
+        <Image
+          source={require('../../assets/google-logo.png')}
+          style={styles.googleLogo}
+        />
         <Text style={styles.signInText}>Sign in with Google</Text>
       </TouchableOpacity>
     </View>
