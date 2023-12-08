@@ -7,7 +7,6 @@ export const OpenVideoButton = React.memo(
   (props: {
     videoId: BaseVideoT['id']
     marginRight?: number
-    marginTop?: number
     size: 'small' | 'big'
   }) => {
     const openUrl = useCallback(() => {
@@ -16,10 +15,9 @@ export const OpenVideoButton = React.memo(
 
     const containerStyle = useMemo(
       () => ({
-        marginRight: props.marginRight,
-        marginTop: props.marginTop
+        marginRight: props.marginRight
       }),
-      [props.marginRight, props.marginTop]
+      [props.marginRight]
     )
 
     const imageStyle = useMemo(

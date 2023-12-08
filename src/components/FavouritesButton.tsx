@@ -37,6 +37,7 @@ export const FavouritesButton = React.memo(
         testID={`FavouritesButton-${isInFavourites ? 'Active' : 'Inactive'}`}
         activeOpacity={0.8}
         onPress={onFavouritesButtonPress}
+        style={styles.iconContainer}
       >
         {isInFavourites ? (
           <HeartFilled style={styles.icon} fill={colors.negative} />
@@ -54,8 +55,14 @@ export const FavouritesButton = React.memo(
 )
 
 const styles = StyleSheet.create({
+  iconContainer: {
+    width: 22,
+    hieght: 22,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   icon: {
-    width: 20,
-    height: 20
+    width: 19,
+    height: 19
   }
 })

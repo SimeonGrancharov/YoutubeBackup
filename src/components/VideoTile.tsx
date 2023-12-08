@@ -65,7 +65,6 @@ export const VideoTile = React.memo(
                 videoId={video.id}
                 size="small"
                 marginRight={15}
-                marginTop={-2}
               />
               <FavouritesButton videoId={video.id} />
             </View>
@@ -98,8 +97,7 @@ const styles = StyleSheet.create({
   },
 
   bottomRowRightContent: {
-    flexDirection: 'row',
-    rowGap: 10
+    flexDirection: 'row'
   },
   image: {
     marginRight: 10,
