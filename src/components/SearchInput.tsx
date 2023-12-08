@@ -16,7 +16,7 @@ export const SearchInput = React.memo(() => {
 
   const onSubmit = useCallback(
     (ev: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
-      searchForText(ev.nativeEvent.text)
+      searchForText(ev.nativeEvent.text.trim())
     },
     []
   )
@@ -30,6 +30,7 @@ export const SearchInput = React.memo(() => {
         style={styles.input}
         placeholder="Search..."
         onSubmitEditing={onSubmit}
+        maxLength={70}
         returnKeyType="go"
       />
     </View>
