@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from 'react'
+import { useIsFocused } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View, FlatList, ListRenderItemInfo, StyleSheet } from 'react-native'
 import { colors } from '../constants/colors'
 import { FavouriteVideosLoader } from '../constants/loaders'
 import { useReduxAction } from '../hooks/useReduxAction'
 import { useReduxSelector } from '../hooks/useReduxSelector'
-import { useStateToRender } from '../hooks/useStateToRender'
 import { favouritesSlice } from '../reducers/favourites'
 import { selectFavourites } from '../selectors/favourites'
 import { BaseVideoT } from '../types/Video'
@@ -16,11 +16,25 @@ type ItemT = BaseVideoT['id']
 
 export const FavouritesScreen = () => {
   const favourites = useReduxSelector(selectFavourites)
+  const [data, setData] = useState<BaseVideoT['id'][]>(favourites)
   const fetchFavourites = useReduxAction(favouritesSlice.actions.fetch)
+  const isFocused = useIsFocused()
   const isFetchingFavourites = useReduxSelector(
     state => state.loaders.loadersById[FavouriteVideosLoader]
   )
   const hasFetchFailed = useReduxSelector(state => state.favourites.fetchFailed)
+
+  useEffect(() => {
+    // Explanation:
+    //
+    // Updates on the the list must happen when the tab is not focused, because
+    // when removing from favs, we want to preserve the item in the list for better UX
+    //
+    // If in some case the list is focused and new item has been added -> update. This is currently not possible tho
+    if (!isFocused || data.length < favourites.length) {
+      setData(favourites)
+    }
+  }, [favourites, isFocused])
 
   useEffect(() => {
     fetchFavourites()
@@ -47,7 +61,7 @@ export const FavouritesScreen = () => {
         <Loading />
       ) : (
         <FlatList<ItemT>
-          data={!hasFetchFailed ? favourites : null}
+          data={!hasFetchFailed ? data : null}
           renderItem={renderItem}
           ListEmptyComponent={
             hasFetchFailed ? (
