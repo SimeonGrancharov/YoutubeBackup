@@ -53,7 +53,7 @@ export const SearchScreen = () => {
       {stateToRender === 'error' ? (
         <Empty text="Oh snap, something went wrong. Try searching again" />
       ) : null}
-      {stateToRender === 'loading' ? <Loading /> : null}
+      {stateToRender === 'loading' && !searchResults ? <Loading /> : null}
       {stateToRender === 'data' ? (
         <FlatList<ItemT>
           data={searchResults}

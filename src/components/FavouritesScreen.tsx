@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import {
-  View,
-  FlatList,
-  ListRenderItemInfo,
-  StyleSheet,
-  ActivityIndicator
-} from 'react-native'
+import { View, FlatList, ListRenderItemInfo, StyleSheet } from 'react-native'
 import { colors } from '../constants/colors'
 import { FavouriteVideosLoader } from '../constants/loaders'
 import { useReduxAction } from '../hooks/useReduxAction'
@@ -28,12 +22,6 @@ export const FavouritesScreen = () => {
   )
   const hasFetchFailed = useReduxSelector(state => state.favourites.fetchFailed)
 
-  const stateToRender = useStateToRender(
-    hasFetchFailed,
-    isFetchingFavourites,
-    favourites
-  )
-
   useEffect(() => {
     fetchFavourites()
   }, [])
@@ -55,13 +43,14 @@ export const FavouritesScreen = () => {
 
   return (
     <View style={styles.mainContainer}>
-      {stateToRender === 'loading' ? <Loading /> : null}
-      {stateToRender === 'error' || stateToRender === 'data' ? (
+      {isFetchingFavourites && !hasFetchFailed ? (
+        <Loading />
+      ) : (
         <FlatList<ItemT>
-          data={stateToRender === 'data' ? favourites : null}
+          data={!hasFetchFailed ? favourites : null}
           renderItem={renderItem}
           ListEmptyComponent={
-            stateToRender === 'error' ? (
+            hasFetchFailed ? (
               <Empty text="Oh snap, something went wrong. Pull down to retry" />
             ) : (
               <Empty text="Nothing here yet. Go and add your first video from Search" />
@@ -69,11 +58,9 @@ export const FavouritesScreen = () => {
           }
           keyExtractor={item => item}
           onRefresh={onRefresh}
-          refreshing={Boolean(
-            stateToRender === 'error' && isFetchingFavourites
-          )}
+          refreshing={Boolean(hasFetchFailed && isFetchingFavourites)}
         />
-      ) : null}
+      )}
     </View>
   )
 }

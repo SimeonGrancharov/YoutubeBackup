@@ -7,12 +7,12 @@ export function useStateToRender<T>(
     return 'error'
   }
 
-  if (isLoading) {
-    return 'loading'
-  }
-
   if (data !== undefined) {
     return 'data'
+  }
+
+  if (isLoading) {
+    return 'loading'
   }
 
   return null
