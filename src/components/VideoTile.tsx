@@ -49,7 +49,7 @@ export const VideoTile = React.memo(
               </Text>
               <Text
                 style={styles.description}
-                numberOfLines={1}
+                numberOfLines={2}
                 ellipsizeMode="tail"
               >
                 {video.description}
@@ -107,18 +107,19 @@ const styles = StyleSheet.create({
   },
   rightContent: {
     flex: 1,
-    justifyContent: 'space-between'
+    alignSelf: 'stretch',
+    justifyContent: 'flex-start'
   },
   title: {
     fontSize: 19,
     lineHeight: 24,
     fontWeight: '500',
     color: colors.text1,
-    marginBottom: 20
+    marginBottom: 10
   },
   description: {
-    fontSize: 17,
-    lineHeight: 20,
+    fontSize: 15,
+    lineHeight: 18,
     fontWeight: '400',
     color: colors.text2
   }
