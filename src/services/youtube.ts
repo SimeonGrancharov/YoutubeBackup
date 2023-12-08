@@ -1,4 +1,3 @@
-import * as z from 'zod'
 import { getHeaders } from './headers'
 import { BaseVideoT } from '../types/Video'
 import { VideosResponseSchema, VideosResponseT } from '../types/SearchResponse'

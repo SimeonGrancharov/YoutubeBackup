@@ -15,17 +15,24 @@ import {
   selectPagination,
   selectSearchResults
 } from '../selectors/search'
+import { useStateToRender } from '../hooks/useStateToRender'
 
 type ItemT = BaseVideoT['id']
 
 export const SearchScreen = () => {
   const searchResults = useReduxSelector(selectSearchResults)
   const searchQuery = useReduxSelector(selectLastSearchQuery)
+  const hasFetchFailed = useReduxSelector(state => state.search.fetchFailed)
   const search = useReduxAction(searchSlice.actions.search)
   const pagination = useReduxSelector(selectPagination)
-
   const isLoading = useReduxSelector(
     state => state.loaders.loadersById[SearchLoader]
+  )
+
+  const stateToRender = useStateToRender(
+    hasFetchFailed,
+    isLoading,
+    searchResults
   )
 
   const renderItem = useCallback(({ item }: ListRenderItemInfo<ItemT>) => {
@@ -43,8 +50,11 @@ export const SearchScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <SearchInput />
-      {!searchResults && isLoading ? <Loading /> : null}
-      {searchResults !== undefined ? (
+      {stateToRender === 'error' ? (
+        <Empty text="Oh snap, something went wrong. Try searching again" />
+      ) : null}
+      {stateToRender === 'loading' ? <Loading /> : null}
+      {stateToRender === 'data' ? (
         <FlatList<ItemT>
           data={searchResults}
           style={styles.resultsMainContainer}

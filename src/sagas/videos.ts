@@ -2,6 +2,20 @@ import { all, call, put, takeLatest } from 'redux-saga/effects'
 import { loadersSlice } from '../reducers/loaders'
 import { videosSlice } from '../reducers/videos'
 import { fetchVideos } from '../services/youtube'
+import { BaseVideoT } from '../types/Video'
+
+export function* fetchAndConsumeVideos(
+  videos: BaseVideoT['id'][]
+): Generator<any, BaseVideoT[], any> {
+  const result: Awaited<ReturnType<typeof fetchVideos>> = yield call(
+    fetchVideos,
+    videos
+  )
+
+  yield put(videosSlice.actions.consumeVideos(result.items ?? []))
+
+  return result.items ?? []
+}
 
 function* onFetch(action: ReturnType<typeof videosSlice.actions.fetch>) {
   const loader = action.payload.loader
@@ -11,12 +25,7 @@ function* onFetch(action: ReturnType<typeof videosSlice.actions.fetch>) {
   }
 
   try {
-    const videos: Awaited<ReturnType<typeof fetchVideos>> = yield call(
-      fetchVideos,
-      action.payload.videos
-    )
-
-    yield put(videosSlice.actions.consumeVideos(videos.items ?? []))
+    fetchAndConsumeVideos(action.payload.videos)
   } catch (err: any) {
     console.log('fetchVideos failed: ', err)
   } finally {

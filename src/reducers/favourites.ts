@@ -3,16 +3,19 @@ import { BaseVideoT } from '../types/Video'
 
 type StateT = {
   favourites: BaseVideoT['id'][]
+  fetchFailed: boolean
 }
 
 const initialState: StateT = {
-  favourites: []
+  favourites: [],
+  fetchFailed: false
 }
 
 export const favouritesSlice = createSlice({
   name: 'favourites',
   initialState,
   reducers: {
+    fetch: () => {},
     setFavourites: (
       state,
       action: PayloadAction<BaseVideoT['id'][] | undefined>
@@ -27,6 +30,9 @@ export const favouritesSlice = createSlice({
     removeFavourite: (state, action: PayloadAction<BaseVideoT['id']>) => {
       state.favourites = state.favourites.filter(id => id !== action.payload)
     },
-    reset: () => initialState
+    reset: () => initialState,
+    setFetchFailed: (state, action: PayloadAction<boolean>) => {
+      state.fetchFailed = action.payload
+    }
   }
 })

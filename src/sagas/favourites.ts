@@ -1,11 +1,34 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin'
 import { Alert } from 'react-native'
-import { all, call, put, select, takeLatest } from 'redux-saga/effects'
+import { all, call, delay, put, select, takeLatest } from 'redux-saga/effects'
+import { FavouriteVideosLoader } from '../constants/loaders'
 import { MaxFavourites } from '../constants/utils'
 import { favouritesSlice } from '../reducers/favourites'
+import { loadersSlice } from '../reducers/loaders'
 import { videosSlice } from '../reducers/videos'
 import { selectFavourites } from '../selectors/favourites'
+import { fetchAndConsumeVideos } from './videos'
+
+function* onFetch() {
+  yield put(loadersSlice.actions.startLoading(FavouriteVideosLoader))
+
+  try {
+    const videoIds: ReturnType<typeof selectFavourites> = yield select(
+      selectFavourites
+    )
+
+    yield delay(2000)
+
+    yield call(fetchAndConsumeVideos, videoIds)
+    yield put(favouritesSlice.actions.setFetchFailed(false))
+  } catch (err) {
+    console.log('Error fetching favourite videos ', err)
+    yield put(favouritesSlice.actions.setFetchFailed(true))
+  } finally {
+    yield put(loadersSlice.actions.stopLoading(FavouriteVideosLoader))
+  }
+}
 
 function* onFavouritesChanged() {
   const favourites: ReturnType<typeof selectFavourites> = yield select(
@@ -63,6 +86,7 @@ export default function* favouritesSaga() {
     takeLatest(
       favouritesSlice.actions.requestAddFavourite,
       onRequestAddFavourite
-    )
+    ),
+    takeLatest(favouritesSlice.actions.fetch, onFetch)
   ])
 }

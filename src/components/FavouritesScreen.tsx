@@ -1,10 +1,17 @@
 import React, { useCallback, useEffect } from 'react'
-import { View, FlatList, ListRenderItemInfo, StyleSheet } from 'react-native'
+import {
+  View,
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  ActivityIndicator
+} from 'react-native'
 import { colors } from '../constants/colors'
 import { FavouriteVideosLoader } from '../constants/loaders'
 import { useReduxAction } from '../hooks/useReduxAction'
 import { useReduxSelector } from '../hooks/useReduxSelector'
-import { videosSlice } from '../reducers/videos'
+import { useStateToRender } from '../hooks/useStateToRender'
+import { favouritesSlice } from '../reducers/favourites'
 import { selectFavourites } from '../selectors/favourites'
 import { BaseVideoT } from '../types/Video'
 import { Empty } from './Empty'
@@ -15,16 +22,20 @@ type ItemT = BaseVideoT['id']
 
 export const FavouritesScreen = () => {
   const favourites = useReduxSelector(selectFavourites)
-  const fetchVideos = useReduxAction(videosSlice.actions.fetch)
+  const fetchFavourites = useReduxAction(favouritesSlice.actions.fetch)
   const isFetchingFavourites = useReduxSelector(
     state => state.loaders.loadersById[FavouriteVideosLoader]
   )
+  const hasFetchFailed = useReduxSelector(state => state.favourites.fetchFailed)
+
+  const stateToRender = useStateToRender(
+    hasFetchFailed,
+    isFetchingFavourites,
+    favourites
+  )
 
   useEffect(() => {
-    fetchVideos({
-      videos: favourites,
-      loader: FavouriteVideosLoader
-    })
+    fetchFavourites()
   }, [])
 
   const renderItem = useCallback(
@@ -33,20 +44,36 @@ export const FavouritesScreen = () => {
     ),
     []
   )
+
+  const onRefresh = useCallback(() => {
+    if (!hasFetchFailed) {
+      return
+    }
+
+    fetchFavourites()
+  }, [hasFetchFailed])
+
   return (
     <View style={styles.mainContainer}>
-      {!isFetchingFavourites ? (
+      {stateToRender === 'loading' ? <Loading /> : null}
+      {stateToRender === 'error' || stateToRender === 'data' ? (
         <FlatList<ItemT>
-          data={favourites}
+          data={stateToRender === 'data' ? favourites : null}
           renderItem={renderItem}
           ListEmptyComponent={
-            <Empty text="Nothing here yet. Go and add your first video from Search" />
+            stateToRender === 'error' ? (
+              <Empty text="Oh snap, something went wrong. Pull down to retry" />
+            ) : (
+              <Empty text="Nothing here yet. Go and add your first video from Search" />
+            )
           }
           keyExtractor={item => item}
+          onRefresh={onRefresh}
+          refreshing={Boolean(
+            stateToRender === 'error' && isFetchingFavourites
+          )}
         />
-      ) : (
-        <Loading />
-      )}
+      ) : null}
     </View>
   )
 }

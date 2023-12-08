@@ -18,7 +18,8 @@ const store: Partial<RootStateT> = {
       mockedFavs.items?.reduce((acc, x) => ({ ...acc, [x.id]: x }), {}) ?? {}
   },
   favourites: {
-    favourites: mockedFavs.items?.map(x => x.id) ?? []
+    favourites: mockedFavs.items?.map(x => x.id) ?? [],
+    fetchFailed: false
   }
 }
 

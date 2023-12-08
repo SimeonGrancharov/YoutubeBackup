@@ -82,7 +82,8 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
       yield put(videosSlice.actions.consumeVideos(result.items))
     }
   } catch (err) {
-    console.log('>>>>>>>>> err ', err)
+    console.log('Error searching: ', err)
+    yield put(searchSlice.actions.setFetchFailed())
   } finally {
     yield put(loadersSlice.actions.stopLoading(SearchLoader))
   }

@@ -5,6 +5,7 @@ type StateT = {
   isSearching: boolean
   lastSearchQuery: string | undefined
   results: BaseVideoT['id'][] | undefined
+  fetchFailed: boolean
   pagination:
     | {
         nextPageToken: string
@@ -16,7 +17,8 @@ const initialState: StateT = {
   isSearching: false,
   lastSearchQuery: undefined,
   results: undefined,
-  pagination: undefined
+  pagination: undefined,
+  fetchFailed: false
 }
 
 export const searchSlice = createSlice({
@@ -29,6 +31,9 @@ export const searchSlice = createSlice({
     },
     setIsSearching: (state, action: PayloadAction<boolean>) => {
       state.isSearching = action.payload
+    },
+    setFetchFailed: state => {
+      state.fetchFailed = true
     },
     setPagination: (state, action: PayloadAction<string | undefined>) => {
       if (action.payload) {
@@ -48,6 +53,7 @@ export const searchSlice = createSlice({
     },
     setResults: (state, action: PayloadAction<BaseVideoT[] | undefined>) => {
       state.results = action.payload?.map(v => v.id)
+      state.fetchFailed = false
     },
     reset: () => initialState
   }

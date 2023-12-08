@@ -14,7 +14,8 @@ import { FavouritesButton } from '../src/components/FavouritesButton'
 
 const store: Partial<RootStateT> = {
   favourites: {
-    favourites: mockedFavs.items?.map(x => x.id) ?? []
+    favourites: mockedFavs.items?.map(x => x.id) ?? [],
+    fetchFailed: false
   }
 }
 
@@ -46,7 +47,8 @@ describe('FavouritesButton', () => {
           ...store,
           favourites: {
             favourites:
-              store.favourites?.favourites.filter(x => x !== videoId) ?? []
+              store.favourites?.favourites.filter(x => x !== videoId) ?? [],
+            fetchFailed: false
           }
         })}
       >
