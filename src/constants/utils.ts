@@ -1,1 +1,1 @@
-export const MaxFavourites = 5
+export const MaxFavourites = 50

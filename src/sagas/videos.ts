@@ -25,7 +25,7 @@ function* onFetch(action: ReturnType<typeof videosSlice.actions.fetch>) {
   }
 
   try {
-    fetchAndConsumeVideos(action.payload.videos)
+    yield call(fetchAndConsumeVideos, action.payload.videos)
   } catch (err: any) {
     console.log('fetchVideos failed: ', err)
   } finally {

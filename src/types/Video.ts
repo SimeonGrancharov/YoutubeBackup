@@ -25,8 +25,8 @@ export const YTSearchVideoSchema = z.object({
   }),
   statistics: z
     .object({
-      viewCount: z.string(),
-      likeCount: z.string(),
+      viewCount: z.string().nullish(),
+      likeCount: z.string().nullish(),
       commentCount: z.string().nullish()
     })
     .nullish()

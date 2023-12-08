@@ -107,8 +107,7 @@ const styles = StyleSheet.create({
   },
   rightContent: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: 'space-between'
   },
   title: {
     fontSize: 19,

@@ -46,7 +46,7 @@ function* onFavouritesChanged() {
       JSON.stringify({ favourites })
     )
   } catch (err) {
-    console.log('>>>>>>>>> err ', err)
+    console.log('OnFavouritesChanged', err)
   }
 }
 
