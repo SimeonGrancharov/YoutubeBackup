@@ -1,3 +1,4 @@
+import he from 'he'
 import * as z from 'zod'
 
 const ThumbnailSchema = z.object({
@@ -34,7 +35,7 @@ export const YTSearchVideoSchema = z.object({
 
 export const BaseVideoSchema = YTSearchVideoSchema.transform(video => ({
   id: typeof video.id === 'object' ? video.id.videoId : video.id,
-  title: video.snippet.title,
+  title: he.decode(video.snippet.title),
   description: video.snippet.description,
   publishedAt: video.snippet.publishedAt,
   publishTime: video.snippet.publishTime,
