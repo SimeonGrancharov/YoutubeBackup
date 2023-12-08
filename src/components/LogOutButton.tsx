@@ -5,7 +5,7 @@ import { useReduxAction } from '../hooks/useReduxAction'
 import { userSlice } from '../reducers/user'
 import { LogOutIcon } from './icons/LogOut'
 
-export const LogOutButton = React.memo(() => {
+export const LogOutButton = () => {
   const logOutAction = useReduxAction(userSlice.actions.logOut)
   const logOut = useCallback(() => logOutAction(), [])
 
@@ -14,12 +14,12 @@ export const LogOutButton = React.memo(() => {
       <LogOutIcon style={styles.icon} />
     </TouchableOpacity>
   )
-})
+}
 
 const styles = StyleSheet.create({
   icon: {
     width: 25,
     height: 25,
-    marginRight: 20
+    marginRight: 15
   }
 })
