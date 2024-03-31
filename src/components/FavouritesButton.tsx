@@ -20,6 +20,7 @@ export const FavouritesButton = React.memo(
     const requestAddToFavourites = useReduxAction(
       favouritesSlice.actions.requestAddFavourite
     )
+
     const removeFromFavourites = useReduxAction(
       favouritesSlice.actions.removeFavourite
     )

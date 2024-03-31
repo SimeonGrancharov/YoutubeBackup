@@ -16,9 +16,11 @@ type ItemT = BaseVideoT['id']
 
 export const FavouritesScreen = React.memo(() => {
   // favourites -> string[]
+
   const isFetchingFavourites = useReduxSelector(
     state => state.loaders.loadersById[FavouriteVideosLoader]
   )
+
   const hasFetchFailed = useReduxSelector(state => state.favourites.fetchFailed)
   const favourites = useReduxSelector(selectFavourites)
   const [data, setData] = useState<BaseVideoT['id'][]>(favourites)

@@ -66,10 +66,12 @@ export const VideoInfoModalContent = React.memo(
             </View>
           ) : null}
 
-          <View style={[styles.item, { borderBottomWidth: 0 }]}>
-            <Text style={styles.title}>Description</Text>
-            <Text style={styles.value}>{video.description}</Text>
-          </View>
+          {video.description ? (
+            <View style={[styles.item, { borderBottomWidth: 0 }]}>
+              <Text style={styles.title}>Description</Text>
+              <Text style={styles.value}>{video.description}</Text>
+            </View>
+          ) : null}
         </View>
       </ScrollView>
     )

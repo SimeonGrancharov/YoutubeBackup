@@ -40,3 +40,5 @@ export const favouritesSlice = createSlice({
     reset: () => initialState
   }
 })
+
+// [userId]: BaseVideoT['id'][]

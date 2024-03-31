@@ -19,7 +19,6 @@ const Tab = createBottomTabNavigator()
 
 export function App(): JSX.Element {
   const appStatus = useReduxSelector(state => state.appState.status)
-
   const isLoggedIn = useReduxSelector(state => state.user.isLoggedIn)
 
   if (appStatus === 'initializing') {
