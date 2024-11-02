@@ -18,6 +18,7 @@ export async function searchByQuery(
   )
 
   const data = await response.json()
+  console.log('ALOOO ', data)
 
   // const data = mockedSearch
   return VideosResponseSchema.parse(data)

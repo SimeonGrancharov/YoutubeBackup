@@ -1,3 +1,5 @@
+process.env.TZ = 'Europe/Sofia'
+
 module.exports = {
   verbose: true,
   globals: {

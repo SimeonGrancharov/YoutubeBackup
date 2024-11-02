@@ -1,6 +1,8 @@
 // ./jest/setup.js
 import 'react-native-gesture-handler/jestSetup'
 
+process.env.TZ = 'Europe/Sofia'
+
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock')
 
