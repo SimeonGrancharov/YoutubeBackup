@@ -17,13 +17,10 @@ import { LoadingScreen } from './src/components/LoadingScreen'
 
 const Tab = createBottomTabNavigator()
 
-const date = '2024-10-11T12:00:00.000Z'
-
 export function App(): JSX.Element {
   const appStatus = useReduxSelector(state => state.appState.status)
   const isLoggedIn = useReduxSelector(state => state.user.isLoggedIn)
 
-  console.log('>>>>>>>>>>>> ', new Date(date).toLocaleString())
   if (appStatus === 'initializing') {
     return <LoadingScreen testID="LoadingScreen" />
   }

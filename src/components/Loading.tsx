@@ -2,12 +2,6 @@ import React from 'react'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 import { colors } from '../constants/colors'
 
-function monka() {
-  const a = 2
-  console.log(a)
-}
-
-monka()
 export const Loading = React.memo(() => {
   return (
     <ActivityIndicator

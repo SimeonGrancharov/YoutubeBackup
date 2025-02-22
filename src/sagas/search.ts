@@ -71,7 +71,6 @@ function* onSearch(action: ReturnType<typeof searchSlice.actions.search>) {
     )
 
     yield put(searchSlice.actions.setLastSearchQuery(action.payload))
-    console.log(' /???? l', result)
 
     if (result.items) {
       yield put(videosSlice.actions.consumeVideos(result.items))

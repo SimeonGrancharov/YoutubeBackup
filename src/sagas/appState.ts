@@ -9,10 +9,8 @@ function* init() {
 
     GoogleSignin.configure({
       scopes: [`https://www.googleapis.com/auth/youtube`],
-      iosClientId:
-        '719318481645-ssoagvt5c2v1rm3hmsv3g1sqgova7vs9.apps.googleusercontent.com',
-      webClientId:
-        '719318481645-903hovl9tieh04rn719utgbbslnbsb86.apps.googleusercontent.com'
+      iosClientId: 'insert-your-id',
+      webClientId: 'insert-your-id'
     })
 
     const isSignedIn: boolean = yield call(GoogleSignin.isSignedIn)

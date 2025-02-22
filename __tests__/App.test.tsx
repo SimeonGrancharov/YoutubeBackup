@@ -16,9 +16,6 @@ import { Provider } from 'react-redux'
 
 describe('App', () => {
   it('renders login screen', () => {
-    const date = '2024-10-11T12:00:00.000Z'
-    console.log('????????????????', new Date(date).toLocaleString())
-
     const store = getStore({
       user: {
         isLoggedIn: false
